@@ -1,26 +1,112 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --font-syne: var(--f-syne);
+  --font-fraunces: var(--f-fraunces);
+  --font-sora: var(--f-sora);
+  --font-manrope: var(--f-manrope);
+  --font-mono: var(--f-mono);
+  --color-mc-indigo: #2b2a78;
+  --color-mc-blue: #4a90e2;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--f-body), ui-sans-serif, system-ui, sans-serif;
+  margin: 0;
 }
+
+::selection {
+  background: #4a90e2;
+  color: #fff;
+}
+
+/* ——— açılış animasyonu (saf CSS — re-render'dan etkilenmez) ——— */
+@keyframes mcIntroOverlay {
+  0%, 30% { opacity: 1; }
+  82%, 100% { opacity: 0; }
+}
+@keyframes mcIntroLogo {
+  0% { opacity: 0; transform: translateY(0) scale(0.96); }
+  18% { opacity: 1; transform: translateY(0) scale(1); }
+  64% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-430px) scale(0.34); }
+}
+.mc-intro-overlay {
+  animation: mcIntroOverlay 2.2s ease-in-out forwards;
+}
+.mc-intro-logo {
+  animation: mcIntroLogo 2.2s cubic-bezier(0.5, 0, 0.55, 1) forwards;
+}
+
+/* hero giriş — CSS (hidrasyondan bağımsız, intro ile senkron) */
+@keyframes mcHeroLine {
+  from { transform: translateY(-118%); }
+  to { transform: translateY(0); }
+}
+@keyframes mcHeroUp {
+  from { opacity: 0; transform: translateY(-16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes mcHeroVid {
+  from { transform: scale(1.2); }
+  to { transform: scale(1); }
+}
+@keyframes mcMqL { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes mcMqR { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+.mc-mq-track { display: flex; width: max-content; will-change: transform; }
+.mc-mq-l { animation: mcMqL 46s linear infinite; }
+.mc-mq-r { animation: mcMqR 52s linear infinite; }
+.mc-mq:hover .mc-mq-l, .mc-mq:hover .mc-mq-r { animation-play-state: paused; }
+.mc-hero-line { animation: mcHeroLine 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.mc-hero-up { animation: mcHeroUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.mc-hero-vid { animation: mcHeroVid 1.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* ——— yardımcı dokular / animasyonlar ——— */
+.mc-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+.mc-grid-dark {
+  background-image:
+    linear-gradient(to right, rgba(20, 20, 40, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(20, 20, 40, 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+@keyframes mc-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.mc-marquee {
+  animation: mc-marquee 38s linear infinite;
+}
+.mc-marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes mc-blink {
+  50% { opacity: 0; }
+}
+.mc-cursor {
+  animation: mc-blink 1s steps(1) infinite;
+}
+
+@keyframes mc-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
