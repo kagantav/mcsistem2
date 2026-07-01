@@ -103,6 +103,10 @@ body {
   animation: mc-blink 1s steps(1) infinite;
 }
 
+/* Star Border — buton çevresinde dönen ışıltılı yay */
+@keyframes mcBorderSpin { to { transform: rotate(360deg); } }
+.mc-border-spin { animation-name: mcBorderSpin; animation-timing-function: linear; animation-iteration-count: infinite; }
+
 @keyframes mc-float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-12px); }

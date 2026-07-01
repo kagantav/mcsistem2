@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PageHero } from "@/components/page-hero";
+import { ParallaxImage } from "@/components/parallax-image";
 import { projects } from "@/lib/content";
 
 const NAVY = "#002b4c";
@@ -31,9 +32,7 @@ export default async function ProjeDetay({ params }: { params: Promise<{ slug: s
       <section className="py-16 lg:py-24 bg-white text-[#10243a]">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-[1fr_320px] gap-12 lg:gap-16 items-start">
           <div>
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-[16/9] mb-10">
-              <img src={p.image} alt={p.title} className="absolute inset-0 w-full h-full object-cover" />
-            </div>
+            <ParallaxImage src={p.image} alt={p.title} className="rounded-3xl shadow-2xl aspect-[16/9] mb-10" amount={10} />
             <h2 className="text-2xl md:text-3xl font-extrabold mb-5" style={{ ...disp, color: NAVY }}>Proje Hakkında</h2>
             <p className="text-[#5a6b82] text-base md:text-[17px] leading-relaxed mb-10">{p.longDesc}</p>
 

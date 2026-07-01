@@ -31,7 +31,7 @@ export function Hizmetler() {
           <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight" style={{ ...disp, color: NAVY }}>Hizmetler</h2>
         </motion.div>
 
-        <div className="flex w-full gap-3 lg:gap-4 md:h-[640px] xl:h-[700px] overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 md:pb-0 no-scrollbar h-auto">
+        <div className="flex flex-col md:flex-row w-full gap-3 lg:gap-4 md:h-[640px] xl:h-[700px] md:overflow-visible">
           {services.map((s, i) => (
             <Panel key={s.key} s={s} i={i} />
           ))}
@@ -47,54 +47,44 @@ function Panel({ s, i }: { s: Service; i: number }) {
 
   return (
     <motion.a
-      href="#sektorler"
+      href={`/hizmet/${s.slug}`}
       onMouseEnter={() => { const v = ref.current; if (v) { v.currentTime = 0; v.play().catch(() => {}); } }}
       onMouseLeave={() => ref.current?.pause()}
-      initial={{ opacity: 0, y: 64, clipPath: "inset(8% 0% 0% 0% round 16px)" }}
-      whileInView={{ opacity: 1, y: 0, clipPath: "inset(0% 0% 0% 0% round 16px)" }}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.75, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-      className="group relative flex-shrink-0 w-[80vw] h-[420px] sm:w-[60vw] md:w-auto md:h-auto md:flex-1 md:hover:flex-[4] transition-[flex-grow] duration-700 ease-in-out rounded-2xl overflow-hidden shadow-xl snap-center"
+      transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+      className="group relative w-full h-44 sm:h-52 md:w-auto md:h-auto md:flex-1 md:hover:flex-[4] transition-[flex-grow] duration-700 ease-in-out rounded-2xl overflow-hidden shadow-lg md:shadow-xl"
     >
-      {/* arka plan görseli — hover'da videoya geçer */}
+      {/* arka plan görseli — masaüstünde hover'da videoya geçer */}
       <img
         src={s.image}
         alt={s.title}
-        className="absolute inset-0 w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000 group-hover:opacity-0"
+        className="absolute inset-0 w-full h-full object-cover md:grayscale-[30%] md:group-hover:grayscale-0 md:group-hover:scale-110 transition-all duration-1000 md:group-hover:opacity-0"
       />
-      <video
-        ref={ref}
-        src={vidSrc(s.key)}
-        muted
-        playsInline
-        preload="none"
-        loop
-        className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-      />
-      <div className="absolute inset-0 bg-slate-900/70 group-hover:bg-gradient-to-t group-hover:from-slate-900 group-hover:to-transparent transition-all duration-500" />
+      <video ref={ref} src={vidSrc(s.key)} muted playsInline preload="none" loop className="hidden md:block absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-      <div className="absolute inset-0 overflow-hidden">
-        {/* MOBİL: her zaman görünür */}
-        <div className="absolute inset-0 p-8 flex flex-col justify-end md:hidden">
-          <h3 className="text-2xl font-extrabold text-white mb-3" style={disp}>{s.title}</h3>
-          <div className="w-12 h-1 mb-4" style={{ background: BLUE }} />
-          <ul className="text-white/85 text-xs font-medium leading-relaxed tracking-wide space-y-2.5">
-            {s.items.map((it) => (
-              <li key={it} className="flex items-start gap-2.5"><Check />{it}</li>
-            ))}
-          </ul>
+      {/* MOBİL: renkli görsel + alt gradient + başlık & ok */}
+      <div className="md:hidden absolute inset-0 bg-gradient-to-t from-slate-900/85 via-slate-900/15 to-transparent" />
+      <div className="md:hidden absolute inset-0 p-5 flex flex-col justify-end">
+        <div className="flex items-end justify-between gap-3">
+          <h3 className="text-xl font-extrabold text-white leading-tight" style={disp}>{s.title}</h3>
+          <span className="shrink-0 w-9 h-9 rounded-full bg-white/15 border border-white/25 flex items-center justify-center text-white">→</span>
         </div>
+      </div>
 
-        {/* MASAÜSTÜ — KAPALI: numara + dikey başlık */}
-        <div className="absolute inset-0 hidden md:block group-hover:opacity-0 transition-opacity duration-200">
+      {/* MASAÜSTÜ */}
+      <div className="hidden md:block absolute inset-0 bg-slate-900/70 group-hover:bg-gradient-to-t group-hover:from-slate-900 group-hover:to-transparent transition-all duration-500" />
+      <div className="hidden md:block absolute inset-0 overflow-hidden">
+        {/* KAPALI: numara + dikey başlık */}
+        <div className="absolute inset-0 group-hover:opacity-0 transition-opacity duration-200">
           <div className="absolute top-8 left-8 w-10 h-10 rounded-full flex items-center justify-center text-white" style={{ background: BLUE }}>
             <span className="font-bold text-sm">{num}</span>
           </div>
           <h3 className="absolute top-20 left-8 text-white font-extrabold text-xl whitespace-nowrap [writing-mode:vertical-rl]" style={disp}>{s.title}</h3>
         </div>
-
-        {/* MASAÜSTÜ — AÇIK: başlık + liste */}
-        <div className="absolute inset-0 hidden md:block opacity-0 group-hover:opacity-100 transition-opacity duration-150 group-hover:duration-500 group-hover:delay-100">
+        {/* AÇIK: başlık + liste */}
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-150 group-hover:duration-500 group-hover:delay-100">
           <div className="absolute top-8 left-8 w-10 h-10 rounded-full flex items-center justify-center text-white" style={{ background: BLUE }}>
             <span className="font-bold text-sm">{num}</span>
           </div>

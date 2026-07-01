@@ -4,6 +4,9 @@ import { SiteFooter } from "@/components/site-footer";
 import { PageHero } from "@/components/page-hero";
 import { Reveal } from "@/components/reveal";
 import { ReferenceLogos } from "@/components/reference-logos";
+import { SpotlightCard } from "@/components/spotlight-card";
+import { CountUp } from "@/components/fx";
+import { ParallaxImage } from "@/components/parallax-image";
 import { company, stats } from "@/lib/content";
 
 const NAVY = "#002b4c";
@@ -29,18 +32,16 @@ export default function Hakkimizda() {
       <section id="hakkimizda" className="py-16 lg:py-28 bg-white text-[#10243a]">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <Reveal>
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-[4/3]">
-              <img src="/company/sirket.jpg" alt="MC Sistem" className="absolute inset-0 w-full h-full object-cover" />
-            </div>
+            <ParallaxImage src="/company/sirket.jpg" alt="MC Sistem" className="rounded-3xl shadow-2xl aspect-[4/3]" />
           </Reveal>
           <Reveal delay={0.1}>
             <p className="text-[#3a4d63] text-xl md:text-2xl leading-relaxed font-medium mb-10" style={disp}>{company.short}</p>
-            <div className="flex flex-wrap gap-x-10 gap-y-6">
+            <div className="grid grid-cols-3 gap-3 sm:gap-6">
               {stats.slice(0, 3).map((s) => (
-                <div key={s.label}>
+                <div key={s.label} className="min-w-0">
                   <span className="block h-[3px] w-7 mb-2.5" style={{ background: BLUE }} />
-                  <div className="text-3xl lg:text-4xl font-extrabold" style={{ ...disp, color: NAVY }}>{s.value}</div>
-                  <div className="mt-1 text-xs text-[#6a7a90]">{s.label}</div>
+                  <CountUp value={s.value} className="block text-2xl sm:text-3xl lg:text-4xl font-extrabold" style={{ ...disp, color: NAVY }} />
+                  <div className="mt-1 text-[11px] sm:text-xs text-[#6a7a90] leading-tight">{s.label}</div>
                 </div>
               ))}
             </div>
@@ -60,7 +61,7 @@ export default function Hakkimizda() {
           <div className="grid sm:grid-cols-3 gap-6 lg:gap-8">
             {CERTS.map((c, i) => (
               <Reveal key={c.code} delay={i * 0.1}>
-                <div className="group relative rounded-[28px] border border-white/10 bg-white/[0.03] px-8 py-12 hover:bg-white/[0.06] hover:border-[#2f6fe0]/45 hover:-translate-y-1.5 transition-all duration-300">
+                <SpotlightCard className="group text-center rounded-[28px] border border-white/10 bg-white/[0.03] px-8 py-12 hover:bg-white/[0.06] hover:border-[#2f6fe0]/45 hover:-translate-y-1.5 transition-all duration-300" spotlightColor="rgba(127,176,255,0.22)">
                   <div className="relative mx-auto mb-7 w-20 h-20">
                     <span className="absolute inset-0 rounded-full border border-white/15 group-hover:scale-110 transition-transform duration-500" />
                     <span className="absolute inset-0 rounded-full border-2 opacity-50 group-hover:opacity-100 transition-opacity" style={{ borderColor: BLUE, clipPath: "inset(0 0 50% 0)" }} />
@@ -70,7 +71,7 @@ export default function Hakkimizda() {
                   </div>
                   <div className="text-3xl lg:text-[2rem] font-extrabold tracking-tight" style={disp}>{c.code}</div>
                   <div className="text-sm text-white/50 mt-2">{c.label}</div>
-                </div>
+                </SpotlightCard>
               </Reveal>
             ))}
           </div>

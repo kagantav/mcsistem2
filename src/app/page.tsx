@@ -170,7 +170,7 @@ function Hero() {
       <div className="relative z-10 max-w-7xl mx-auto px-6 h-full flex flex-col justify-center">
         <h1 className="text-white font-extrabold leading-[1.0] tracking-tight" style={display}>
           <span className="block overflow-hidden pb-2 min-h-[1.2em]">
-            <VideoTypewriter words={heroWords} videoId="mc-hero-video" fallbackDur={32} className="mc-hero-line block whitespace-nowrap text-[clamp(1.5rem,6vw,4.6rem)]" style={{ animationDelay: "1.5s", color: "#ffffff" }} />
+            <VideoTypewriter words={heroWords} videoId="mc-hero-video" fallbackDur={32} className="mc-hero-line block whitespace-nowrap text-[clamp(1.15rem,5.8vw,4.6rem)]" style={{ animationDelay: "1.5s", color: "#ffffff" }} />
           </span>
         </h1>
 

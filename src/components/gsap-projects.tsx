@@ -113,7 +113,7 @@ export function GsapProjects() {
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: "linear-gradient(to top, rgba(47,111,224,0.22), transparent 50%)" }} />
 
               {/* üst: index + durum */}
-              <div className="absolute top-7 left-8 right-8 flex items-center justify-between">
+              <div className="absolute top-6 left-6 right-6 sm:top-7 sm:left-8 sm:right-8 flex items-center justify-between">
                 <span className="font-mono text-sm text-white/55">
                   {String(i + 1).padStart(2, "0")} <span className="text-white/25">/ {String(projects.length).padStart(2, "0")}</span>
                 </span>
@@ -124,22 +124,22 @@ export function GsapProjects() {
               </div>
 
               {/* alt: başlık + teknik künye */}
-              <div className="absolute bottom-0 left-0 right-0 p-8 lg:p-10">
-                <h3 className="text-3xl lg:text-[2.9rem] font-extrabold leading-[1.0] mb-7 max-w-[92%]" style={{ fontFamily: "var(--f-display)" }}>
+              <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 lg:p-10">
+                <h3 className="text-2xl sm:text-3xl lg:text-[2.9rem] font-extrabold leading-[1.05] sm:leading-[1.0] mb-4 sm:mb-7 max-w-[92%]" style={{ fontFamily: "var(--f-display)" }}>
                   {p.title}
                 </h3>
-                <div className="flex items-end gap-6 border-t border-white/15 pt-5">
-                  <div>
+                <div className="flex items-end gap-4 sm:gap-6 border-t border-white/15 pt-4 sm:pt-5">
+                  <div className="min-w-0">
                     <div className="text-[10px] uppercase tracking-[0.2em] text-white/45 mb-1.5">Konum</div>
-                    <div className="text-sm text-white/90 font-medium">{p.location}, {p.country}</div>
+                    <div className="text-sm text-white/90 font-medium truncate">{p.location}, {p.country}</div>
                   </div>
-                  <div className="w-px self-stretch bg-white/15" />
-                  <div>
+                  <div className="hidden sm:block w-px self-stretch bg-white/15" />
+                  <div className="hidden sm:block min-w-0">
                     <div className="text-[10px] uppercase tracking-[0.2em] text-white/45 mb-1.5">Kapsam</div>
-                    <div className="text-sm text-white/90 font-medium">{p.category}</div>
+                    <div className="text-sm text-white/90 font-medium truncate">{p.category}</div>
                   </div>
-                  <div className="ml-auto">
-                    <span className="flex items-center justify-center w-11 h-11 rounded-full border border-white/25 text-white transition-all duration-300 group-hover:bg-white group-hover:text-[#00101e]">→</span>
+                  <div className="ml-auto shrink-0">
+                    <span className="flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-white/25 text-white transition-all duration-300 group-hover:bg-white group-hover:text-[#00101e]">→</span>
                   </div>
                 </div>
               </div>

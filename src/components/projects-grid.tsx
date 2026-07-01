@@ -5,6 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { projects } from "@/lib/content";
+import { Tilt, CountUp } from "@/components/fx";
 
 const NAVY = "#002b4c";
 const disp = { fontFamily: "var(--f-display)" };
@@ -31,7 +32,7 @@ export function ProjectsGrid() {
               style={on ? { background: NAVY } : undefined}
             >
               {f === "Devam Ediyor" ? "Devam Eden" : f === "Tamamlandı" ? "Tamamlanan" : "Tümü"}
-              <span className="opacity-60 tabular-nums">{n}</span>
+              <CountUp value={String(n)} className="opacity-60 tabular-nums" />
             </button>
           );
         })}
@@ -49,8 +50,10 @@ export function ProjectsGrid() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.55, delay: (i % 3) * 0.08, ease: [0.22, 1, 0.36, 1] }}
+              style={{ perspective: 1000 }}
             >
-              <Link href={`/proje/${p.slug}`} className="group block rounded-3xl overflow-hidden bg-white border border-black/[0.07] hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 h-full">
+              <Link href={`/proje/${p.slug}`} className="block h-full">
+                <Tilt className="group block rounded-3xl overflow-hidden bg-white border border-black/[0.07] hover:shadow-2xl transition-shadow duration-300 h-full" max={6}>
                 <div className="relative h-52 overflow-hidden">
                   <img src={p.image} alt={p.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent" />
@@ -67,6 +70,7 @@ export function ProjectsGrid() {
                     {p.location} · {p.country}
                   </div>
                 </div>
+                </Tilt>
               </Link>
             </motion.div>
           );
