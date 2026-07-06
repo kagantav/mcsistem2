@@ -9,12 +9,12 @@ import { Magnetic } from "@/components/fx";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { Cursor } from "@/components/cursor";
 import { IntroLoader } from "@/components/intro-loader";
-import { VideoTypewriter } from "@/components/video-typewriter";
+import { HeroServices } from "@/components/hero-services";
 import { GsapProjects } from "@/components/gsap-projects";
 import { Hizmetler } from "@/components/hizmetler";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { company, services, heroWords } from "@/lib/content";
+import { company, services } from "@/lib/content";
 
 const NAVY = "#002b4c";
 const BLUE = "#2f6fe0";
@@ -159,8 +159,8 @@ function Hero() {
     <section className="fixed inset-0 h-screen overflow-hidden bg-[#001426] z-0">
       <div className="absolute inset-0">
         <div className="mc-hero-vid w-full h-full" style={{ animationDelay: "1.35s" }}>
-          <video id="mc-hero-video" autoPlay loop muted playsInline preload="auto" poster="/services/metro.webp" className="w-full h-full object-cover">
-            <source src="/hero/banner.mp4" type="video/mp4" />
+          <video id="mc-hero-video" autoPlay loop muted playsInline preload="auto" poster="/services/akilli-ulasim.webp" className="w-full h-full object-cover">
+            <source src="/hero/main-video.mp4" type="video/mp4" />
           </video>
         </div>
       </div>
@@ -168,20 +168,7 @@ function Hero() {
       <div className="absolute inset-0 mc-grid opacity-20" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 h-full flex flex-col justify-center">
-        <h1 className="text-white font-extrabold leading-[1.0] tracking-tight" style={display}>
-          <span className="block overflow-hidden pb-2 min-h-[1.2em]">
-            <VideoTypewriter words={heroWords} videoId="mc-hero-video" fallbackDur={32} className="mc-hero-line block whitespace-nowrap text-[clamp(1.15rem,5.8vw,4.6rem)]" style={{ animationDelay: "1.5s", color: "#ffffff" }} />
-          </span>
-        </h1>
-
-        <p className="mc-hero-up mt-6 max-w-md text-white/75 text-lg" style={{ animationDelay: "1.8s" }}>
-          Ulaşım ve altyapıda uçtan uca elektromekanik çözümler.
-        </p>
-
-        <div className="mc-hero-up mt-9 flex flex-wrap items-center gap-4" style={{ animationDelay: "1.95s" }}>
-          <Magnetic className="inline-block px-8 py-4 rounded-full text-white font-semibold text-sm" style={{ background: BLUE }}>Projelerimiz →</Magnetic>
-          <Magnetic className="inline-block px-8 py-4 rounded-full text-white font-semibold text-sm border border-white/30">Kurumsal</Magnetic>
-        </div>
+        <HeroServices videoId="mc-hero-video" />
       </div>
 
       <motion.div className="absolute bottom-7 left-1/2 -translate-x-1/2 text-white/55 text-[11px] tracking-[0.3em] uppercase flex flex-col items-center gap-2">

@@ -16,7 +16,7 @@ export function PageHero({ title, image, curveColor = "#ffffff" }: { title: stri
       initial={{ clipPath: "inset(0 0 100% 0)" }}
       animate={{ clipPath: "inset(0 0 0% 0)" }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className="relative overflow-hidden bg-[#001426] text-white"
+      className="relative overflow-hidden bg-[#001426] text-white -mb-px"
     >
       {image && <img src={image} alt="" className="absolute inset-0 w-full h-full object-cover opacity-[0.18]" />}
       <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(0,16,32,0.85) 0%, rgba(0,16,32,0.96) 100%)" }} />
@@ -69,8 +69,8 @@ export function PageHero({ title, image, curveColor = "#ffffff" }: { title: stri
         ↓
       </motion.div>
 
-      {/* yumuşak kavis geçişi (1px taşırma ile hairline kapatılır) */}
-      <svg className="absolute left-0 w-full" style={{ height: 80, bottom: -1 }} viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden>
+      {/* yumuşak kavis geçişi (kavisli dalga) */}
+      <svg className="absolute left-0 w-full block" style={{ height: 80, bottom: -1 }} viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden>
         <path d="M0,12 C420,72 1020,72 1440,12 L1440,80 L0,80 Z" fill={curveColor} />
       </svg>
     </motion.section>
