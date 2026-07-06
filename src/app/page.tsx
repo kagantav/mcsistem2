@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { motion } from "motion/react";
 import { Reveal } from "@/components/reveal";
 import { ReferenceLogos } from "@/components/reference-logos";
 import { Magnetic } from "@/components/fx";
@@ -14,7 +14,7 @@ import { GsapProjects } from "@/components/gsap-projects";
 import { Hizmetler } from "@/components/hizmetler";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { company, services } from "@/lib/content";
+import { company, services, blogs } from "@/lib/content";
 
 const NAVY = "#002b4c";
 const BLUE = "#2f6fe0";
@@ -192,17 +192,6 @@ function References() {
   );
 }
 
-const NEWS_LIST = [
-  { date: "29 Ocak 2026", title: "Test ve Eğitim Merkezimizin açılışını gerçekleştirdik.", img: "/company/sirket.jpg" },
-  { date: "22 Ekim 2025", title: "Azerbaycan Demiryolları (ADY) heyeti şirketimizi ziyaret etti.", img: "/projects/proje-3.jpg" },
-  { date: "24 Eylül 2025", title: "2024 Yılı Olağan Genel Kurul Toplantısı gerçekleştirildi.", img: "/company/breadcrumb.jpg" },
-];
-const NEWS_FEAT = [
-  { date: "08 Nisan 2025", title: "RAYLI SİSTEM GÜVENLİĞİNDE ÖNCÜ", excerpt: "Türkiye merkezli MC Sistem; akıllı ulaşım, raylı sistemler ve metro projelerinde uçtan uca elektromekanik çözümleriyle sektörde öncü konumda yer alıyor.", img: "/services/akilli-ulasim.webp" },
-  { date: "15 Mart 2025", title: "OVİT TÜNELİ DEVREYE ALINDI", excerpt: "Tünel elektromekanik sistemlerinin kurulumu, testi ve devreye alınması süreçleri ekibimiz tarafından başarıyla tamamlandı.", img: "/projects/proje-2.jpg" },
-  { date: "02 Şubat 2025", title: "METRO SİNYALİZASYON ENTEGRASYONU", excerpt: "Yeni metro hattında sinyalizasyon ve enerji altyapısı entegrasyonu, yüksek frekanslı sefer hedefiyle eksiksiz tamamlandı.", img: "/services/metro.webp" },
-];
-
 const CalIcon = () => (
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
     <rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" />
@@ -210,67 +199,53 @@ const CalIcon = () => (
 );
 
 function Haberler() {
-  const [f, setF] = useState(0);
-  const feat = NEWS_FEAT[f];
-  const go = (d: number) => setF((p) => (p + d + NEWS_FEAT.length) % NEWS_FEAT.length);
+  const feat = blogs[0];
+  const rest = blogs.slice(1);
 
   return (
     <section className="py-20 lg:py-28 bg-white">
       <div className="max-w-7xl mx-auto px-6">
         <Reveal>
-          <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-12 lg:mb-14" style={{ ...display, color: NAVY }}>Son Gelişmeler</h2>
+          <div className="flex items-end justify-between gap-4 mb-12 lg:mb-14">
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight" style={{ ...display, color: NAVY }}>Son Gelişmeler</h2>
+            <a href="/haberler" className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold shrink-0" style={{ color: BLUE }}>Tümü <span aria-hidden>→</span></a>
+          </div>
         </Reveal>
 
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-stretch">
-          {/* sol: liste */}
-          <Reveal className="flex flex-col">
-            {NEWS_LIST.map((n) => (
-              <a key={n.title} href="#" data-cursor className="group flex items-center gap-5 py-6 border-b border-black/10 first:pt-0">
+          {/* sol: öne çıkan blog */}
+          <Reveal className="flex">
+            <a href="/haberler" data-cursor className="group relative w-full rounded-2xl overflow-hidden shadow-2xl min-h-[420px]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={feat.image} alt={feat.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(0,16,32,0.1) 0%, rgba(0,16,32,0.55) 52%, rgba(0,16,32,0.96) 100%)" }} />
+              <div className="relative h-full flex flex-col justify-end p-8 lg:p-10 text-white min-h-[420px]">
+                <span className="inline-flex items-center self-start text-[11px] font-semibold uppercase tracking-wide px-3 py-1.5 rounded-full mb-4" style={{ background: BLUE }}>{feat.category}</span>
+                <div className="flex items-center gap-2 text-sm text-white/80 mb-3">
+                  <span style={{ color: "#7fb0ff" }}><CalIcon /></span> {feat.date}
+                </div>
+                <h3 className="text-2xl lg:text-3xl font-extrabold leading-tight mb-3 max-w-md" style={display}>{feat.title}</h3>
+                <p className="text-white/75 text-sm leading-relaxed max-w-md line-clamp-2">{feat.excerpt}</p>
+              </div>
+            </a>
+          </Reveal>
+
+          {/* sağ: diğer bloglar */}
+          <Reveal delay={0.12} className="flex flex-col justify-center">
+            {rest.map((n) => (
+              <a key={n.title} href="/haberler" data-cursor className="group flex items-center gap-5 py-6 border-b border-black/10 first:pt-0 last:border-0">
                 <div className="w-32 h-24 lg:w-40 lg:h-28 shrink-0 rounded-xl overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={n.img} alt={n.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  <img src={n.image} alt={n.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                 </div>
-                <div>
-                  <div className="flex items-center gap-2 text-xs text-[#7587a0] mb-2.5">
-                    <span style={{ color: BLUE }}><CalIcon /></span> {n.date}
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 text-xs text-[#7587a0] mb-2">
+                    <span style={{ color: BLUE }}><CalIcon /></span> {n.date} <span className="text-[#c3ccd8]">·</span> {n.category}
                   </div>
                   <h3 className="text-lg lg:text-xl font-bold leading-snug transition-colors group-hover:text-[#2f6fe0]" style={{ ...display, color: NAVY }}>{n.title}</h3>
                 </div>
               </a>
             ))}
-          </Reveal>
-
-          {/* sağ: öne çıkan */}
-          <Reveal delay={0.12} className="flex">
-            <div className="relative flex w-full pl-4">
-              <span className="absolute left-0 top-8 bottom-8 w-1.5 rounded-full" style={{ background: NAVY }} />
-              <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl min-h-[420px] lg:min-h-0">
-                <AnimatePresence mode="wait">
-                  <motion.div key={f} initial={{ opacity: 0, scale: 1.04 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="absolute inset-0">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={feat.img} alt={feat.title} className="w-full h-full object-cover" />
-                  </motion.div>
-                </AnimatePresence>
-                <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(0,16,32,0.15) 0%, rgba(0,16,32,0.55) 55%, rgba(0,16,32,0.95) 100%)" }} />
-
-                <div className="relative h-full flex flex-col justify-end p-8 lg:p-10 text-white min-h-[420px]">
-                  <AnimatePresence mode="wait">
-                    <motion.div key={f} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.4 }}>
-                      <div className="flex items-center gap-2 text-sm text-white/80 mb-3">
-                        <span style={{ color: "#7fb0ff" }}><CalIcon /></span> {feat.date}
-                      </div>
-                      <h3 className="text-2xl lg:text-3xl font-extrabold leading-tight max-w-md" style={display}>{feat.title}</h3>
-                    </motion.div>
-                  </AnimatePresence>
-
-                  {/* oklar */}
-                  <div className="absolute bottom-8 right-8 flex items-center gap-3">
-                    <button onClick={() => go(-1)} aria-label="Önceki" className="w-12 h-12 rounded-full border border-white/40 text-white flex items-center justify-center hover:bg-white/10 transition-colors">←</button>
-                    <button onClick={() => go(1)} aria-label="Sonraki" className="w-12 h-12 rounded-full flex items-center justify-center text-white" style={{ background: BLUE }}>→</button>
-                  </div>
-                </div>
-              </div>
-            </div>
           </Reveal>
         </div>
       </div>

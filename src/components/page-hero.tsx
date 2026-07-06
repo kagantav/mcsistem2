@@ -13,9 +13,9 @@ const disp = { fontFamily: "var(--f-display)" };
 export function PageHero({ title, image, curveColor = "#ffffff" }: { title: string; image?: string; curveColor?: string }) {
   return (
     <motion.section
-      initial={{ clipPath: "inset(0 0 100% 0)" }}
-      animate={{ clipPath: "inset(0 0 0% 0)" }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className="relative overflow-hidden bg-[#001426] text-white -mb-px"
     >
       {image && <img src={image} alt="" className="absolute inset-0 w-full h-full object-cover opacity-[0.18]" />}

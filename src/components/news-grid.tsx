@@ -3,24 +3,14 @@
 
 import { useState } from "react";
 import { motion } from "motion/react";
+import { blogs } from "@/lib/content";
 
 const NAVY = "#002b4c";
 const BLUE = "#2f6fe0";
 const disp = { fontFamily: "var(--f-display)" };
 
-type News = { title: string; date: string; cat: string; img: string; excerpt: string; featured?: boolean };
-
-const NEWS: News[] = [
-  { title: "Test ve Eğitim Merkezimizin açılışını gerçekleştirdik", date: "29 Ocak 2026", cat: "Kurumsal", img: "/company/sirket.jpg", excerpt: "Ekiplerimizin saha öncesi hazırlığı ve sistem testleri için kurduğumuz Test ve Eğitim Merkezi hizmete açıldı.", featured: true },
-  { title: "Azerbaycan Demiryolları (ADY) heyeti şirketimizi ziyaret etti", date: "22 Ekim 2025", cat: "Kurumsal", img: "/projects/proje-3.jpg", excerpt: "ADY temsilcilerinden oluşan heyet, raylı sistem çözümlerimizi yerinde inceledi." },
-  { title: "2024 Yılı Olağan Genel Kurul Toplantısı gerçekleştirildi", date: "24 Eylül 2025", cat: "Kurumsal", img: "/projects/proje-1.jpg", excerpt: "Şirketimizin 2024 yılı faaliyetlerine ilişkin olağan genel kurul toplantısı tamamlandı." },
-  { title: "Ovit Tüneli elektromekanik sistemleri devreye alındı", date: "12 Mart 2025", cat: "Proje", img: "/projects/proje-2.jpg", excerpt: "Tünel elektromekanik sistemlerinin kurulumu, testi ve devreye alınması başarıyla tamamlandı." },
-  { title: "Yeni metro hattında sinyalizasyon entegrasyonu tamamlandı", date: "28 Şubat 2025", cat: "Proje", img: "/services/metro.webp", excerpt: "Yeni metro hattında sinyalizasyon ve enerji altyapısı entegrasyonu yüksek frekanslı sefer hedefiyle tamamlandı." },
-  { title: "Havalimanı seyrüsefer ve aydınlatma projesine başlandı", date: "10 Şubat 2025", cat: "Proje", img: "/services/havaalani.webp", excerpt: "Terminal ve apron sistemlerini kapsayan yeni havalimanı projemizin saha çalışmaları başladı." },
-  { title: "Raylı sistem güvenliğinde öncü yaklaşımımız", date: "08 Nisan 2025", cat: "Sektör", img: "/services/akilli-ulasim.webp", excerpt: "Uluslararası standartlarda sinyalizasyon ve kontrol çözümleriyle raylı sistem güvenliğine katkımız." },
-];
-
-const CATS = ["Tümü", "Kurumsal", "Proje", "Sektör"];
+const NEWS = blogs.map((b, i) => ({ title: b.title, date: b.date, cat: b.category, img: b.image, excerpt: b.excerpt, featured: i === 0 }));
+const CATS = ["Tümü", ...Array.from(new Set(blogs.map((b) => b.category)))];
 
 export function NewsGrid() {
   const [cat, setCat] = useState("Tümü");

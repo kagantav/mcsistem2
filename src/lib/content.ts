@@ -301,6 +301,32 @@ export const references: { file: string; name: string }[] = [
   { file: "referans-8.png", name: "IC İçtaş İnşaat Sanayi ve Ticaret A.Ş." },
 ];
 
+// Bloglar (mcsistem.com.tr içeriğinden) — şimdilik mock
+export type Blog = { title: string; date: string; category: string; image: string; excerpt: string };
+export const blogs: Blog[] = [
+  {
+    title: "Anahtar Teslim Mühendislik: 25 Yıllık Yaklaşımımız",
+    date: "22 Nisan 2026",
+    category: "Kurumsal",
+    image: "/company/sirket.jpg",
+    excerpt: "Çeyrek asrı aşan saha tecrübemizle anahtar teslim elektromekanik mühendisliği nasıl tanımlıyor, hangi prensiplerle çalışıyoruz? MC Sistem'in kurumsal yaklaşımını derledik.",
+  },
+  {
+    title: "Yeni Zigana Tüneli'nde Devreye Alma Aşamasına Geçtik",
+    date: "18 Mart 2026",
+    category: "Proje Güncellemesi",
+    image: "/projects/proje-2.jpg",
+    excerpt: "Avrupa'nın en uzun karayolu tünellerinden Yeni Zigana Tüneli'nde elektromekanik sistemlerin devreye alma testleri başladı. Saha ekibimizin son güncellemelerini paylaşıyoruz.",
+  },
+  {
+    title: "Akıllı Ulaşım Sistemlerinin Geleceği: 2026 Trendleri",
+    date: "4 Şubat 2026",
+    category: "Sektör",
+    image: "/services/akilli-ulasim.webp",
+    excerpt: "Yapay zeka destekli trafik yönetiminden 5G altyapısına, V2X iletişiminden enerji verimli sensör ağlarına — akıllı ulaşım sistemlerinde bizi bekleyen teknolojik dönüşümleri analiz ettik.",
+  },
+];
+
 // Banner daktilo metinleri
 export const heroWords = [
   "Akıllı Ulaşım Sistemleri",
