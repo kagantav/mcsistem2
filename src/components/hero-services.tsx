@@ -7,14 +7,18 @@ const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 const disp = { fontFamily: "var(--f-display)" };
 
 /** Videodaki segment sınırları (saniye) — kare analizine göre */
-const BOUNDS = [13.75, 29];
+const BOUNDS = [13.75, 23.75, 29];
 const SEGMENTS = [
   { title: "Akıllı Ulaşım", items: ["Trafik İzleme ve Yönetim Sistemleri", "Tünel Elektromekanik Sistemleri", "Sinyalizasyon Sistemleri"] },
   { title: "Raylı Ulaşım", items: ["Sinyalizasyon Sistemleri", "Telekomünikasyon Sistemleri", "Elektrifikasyon Sistemleri"] },
+  { title: "Metro", items: ["Elektromekanik Sistemler", "Kontrol ve Haberleşme Sistemleri", "Sinyalizasyon Sistemleri"] },
   { title: "Havaalanı", items: ["Radar ve Seyrüsefer Sistemleri", "Pist Aydınlatma", "Havaalanı Bilgi Sistemi"] },
 ];
 
-const segFor = (ct: number) => (ct < BOUNDS[0] ? 0 : ct < BOUNDS[1] ? 1 : 2);
+const segFor = (ct: number) => {
+  for (let i = 0; i < BOUNDS.length; i++) if (ct < BOUNDS[i]) return i;
+  return BOUNDS.length;
+};
 
 /**
  * Hero'da videoyla senkron: her segmentte hizmet adını daktilo ile yazar,
