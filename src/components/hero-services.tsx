@@ -7,12 +7,14 @@ const disp = { fontFamily: "var(--f-display)" };
 
 /** Videodaki segment sınırları (saniye) — kare analizine göre */
 const BOUNDS = [13.75, 23.75, 29];
-const TITLES = [
-  "Akıllı Ulaşım Sistemleri",
-  "Raylı Ulaşım Sistemleri",
-  "Metro Sistemleri",
-  "Havaalanı Sistemleri",
+type Segment = { title: string; items: string[] };
+const SEGMENTS: Segment[] = [
+  { title: "Akıllı Ulaşım Sistemleri", items: ["Trafik İzleme ve Yönetim Sistemleri", "Tünel Elektromekanik Sistemleri", "Sinyalizasyon Sistemleri"] },
+  { title: "Raylı Ulaşım Sistemleri", items: ["Sinyalizasyon Sistemleri", "Telekomünikasyon Sistemleri", "Elektrifikasyon Sistemleri"] },
+  { title: "Metro Sistemleri", items: ["Elektromekanik Sistemler", "Kontrol ve Haberleşme Sistemleri", "Sinyalizasyon Sistemleri"] },
+  { title: "Havaalanı Sistemleri", items: ["Radar ve Seyrüsefer Sistemleri", "Pist Aydınlatma Sistemleri", "Uçak Park Ettirme Sistemleri"] },
 ];
+const TITLES = SEGMENTS.map((s) => s.title);
 
 const SEQ = TITLES.length;
 const COPIES = 7;         // dikişsiz sonsuz bant için yeterli kopya
@@ -122,10 +124,9 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
           grid-overlap: giriş/çıkış aynı hücrede, aynı anda animasyon. */}
       <div className="absolute inset-0 grid place-items-center px-6">
         <AnimatePresence>
-          <motion.h1
+          <motion.div
             key={featured}
-            className="[grid-area:1/1] text-white font-extrabold tracking-tight leading-[1.05] text-center whitespace-nowrap text-3xl sm:text-5xl lg:text-7xl"
-            style={disp}
+            className="[grid-area:1/1] flex flex-col items-center gap-3 sm:gap-5"
             initial={reduce ? { opacity: 0 } : { opacity: 0, y: liftY, scale: 0.36, filter: "blur(4px)" }}
             animate={
               reduce
@@ -138,8 +139,25 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
                 : { opacity: 0, y: liftY, scale: 0.36, filter: "blur(4px)", transition: { duration: SHUTTLE, ease: EASE } }
             }
           >
-            {TITLES[featured]}
-          </motion.h1>
+            <h1
+              className="text-white font-extrabold tracking-tight leading-[1.05] text-center whitespace-nowrap text-3xl sm:text-5xl lg:text-7xl"
+              style={disp}
+            >
+              {SEGMENTS[featured].title}
+            </h1>
+            {/* alt başlıklar — yan yana, tipografik sıralı */}
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1.5 sm:gap-x-9">
+              {SEGMENTS[featured].items.map((it) => (
+                <span
+                  key={it}
+                  className="inline-flex items-center gap-2 text-white/80 font-medium tracking-tight text-sm sm:text-base lg:text-xl"
+                >
+                  <span className="text-[#7fb0ff] text-xs sm:text-sm">➢</span>
+                  {it}
+                </span>
+              ))}
+            </div>
+          </motion.div>
         </AnimatePresence>
       </div>
 
