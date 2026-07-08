@@ -14,49 +14,64 @@ const TITLES = [
   "Havaalanı Sistemleri",
 ];
 
+const SEQ = TITLES.length;
+const COPIES = 7;         // dikişsiz sonsuz bant için yeterli kopya
+const CENTER_COPY = 3;    // ortaya hizalanan kopya (soluna 3 kopya dolgu kalır → boşluk yok)
+const SCROLL_LEAD = 1.6;  // segment değişiminden kaç sn önce bant kaymaya başlar
+
+// bantta 7 kopya, düz dizi
+const BAND = Array.from({ length: COPIES }, () => TITLES).flat();
+
+const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
 /**
  * Video zamanından segment indeksi + segment içi ilerleme.
  * Kenarlar: [0, ...BOUNDS, dur] → segment i: [edges[i], edges[i+1]).
  */
-function segAt(ct: number, dur: number): { i: number; p: number } {
+function segAt(ct: number, dur: number): { i: number; segEnd: number; segDur: number } {
   const edges = [0, ...BOUNDS, dur];
   let i = BOUNDS.length;
   for (let k = 0; k < BOUNDS.length; k++) { if (ct < BOUNDS[k]) { i = k; break; } }
-  const span = edges[i + 1] - edges[i];
-  const p = span > 0 ? Math.min(1, Math.max(0, (ct - edges[i]) / span)) : 0;
-  return { i, p };
+  return { i, segEnd: edges[i + 1], segDur: edges[i + 1] - edges[i] };
 }
 
 export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string; fallbackDur?: number }) {
   const [seg, setSeg] = useState(0);
+  const [liftY, setLiftY] = useState(220); // başlığın bant hizasından merkeze kat ettiği dikey mesafe (px)
   const segRef = useRef(-1);
-  const progressRef = useRef(0); // segment içi ilerleme, imperatif okuma için
   const reduce = useReducedMotion();
   const reduceRef = useRef(false);
 
-  useEffect(() => { reduceRef.current = !!reduce; }, [reduce]);
-
   const vpRef = useRef<HTMLDivElement | null>(null);      // bant görüş alanı (overflow hidden)
   const trackRef = useRef<HTMLDivElement | null>(null);   // kayan iz
-  const itemRefs = useRef<(HTMLSpanElement | null)[]>([]); // her başlık öğesi (2× kopya)
-  const offsetsRef = useRef<number[]>([]);                 // segment i için merkez ofseti, uzunluk N+1
+  const itemRefs = useRef<(HTMLSpanElement | null)[]>([]); // her başlık öğesi (7× kopya)
+  const offsetsRef = useRef<number[]>([]);                 // her öğenin iz-içi merkez ofseti
   const vpCenterRef = useRef(0);                           // görüş alanı yatay merkezi
 
+  useEffect(() => { reduceRef.current = !!reduce; }, [reduce]);
+
+  // ölçüm: öğe merkezleri, görüş alanı merkezi, dikey yükselme mesafesi
   useEffect(() => {
-    const N = TITLES.length;
     const measure = () => {
       const vp = vpRef.current;
       if (!vp) return;
       vpCenterRef.current = vp.clientWidth / 2;
       const offs: number[] = [];
-      for (let k = 0; k <= N; k++) {
+      for (let k = 0; k < BAND.length; k++) {
         const el = itemRefs.current[k];
         if (el) offs[k] = el.offsetLeft + el.offsetWidth / 2;
       }
       offsetsRef.current = offs;
+      // başlangıç: seg0'ı ortaya park et (ilk karede boşluk olmasın)
+      const track = trackRef.current;
+      if (track && offs.length > SEQ * CENTER_COPY) {
+        track.style.transform = `translate3d(${vpCenterRef.current - offs[SEQ * CENTER_COPY]}px,0,0)`;
+      }
+      // dikey yükselme mesafesi: bant merkezi ile ekran merkezi arası
+      const r = vp.getBoundingClientRect();
+      setLiftY(Math.max(80, r.top + r.height / 2 - window.innerHeight / 2));
     };
     measure();
-    // Custom font (--f-display) yüklenince genişlikler değişebilir → yeniden ölç
     if (typeof document !== "undefined" && "fonts" in document) {
       (document as Document).fonts.ready.then(measure).catch(() => {});
     }
@@ -70,18 +85,26 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
     const tick = () => {
       const dur = vid && isFinite(vid.duration) && vid.duration > 0 ? vid.duration : fallbackDur;
       const ct = vid && isFinite(vid.currentTime) ? vid.currentTime % dur : (performance.now() / 1000) % dur;
-      const { i, p } = segAt(ct, dur);
-      progressRef.current = p;
+      const { i, segEnd, segDur } = segAt(ct, dur);
       if (i !== segRef.current) { segRef.current = i; setSeg(i); }
 
       const off = offsetsRef.current;
       const track = trackRef.current;
-      if (track && off.length > i + 1) {
-        const pp = reduceRef.current ? 0 : p;
-        const from = off[i];
-        const to = off[i + 1];
-        const x = vpCenterRef.current - (from + (to - from) * pp);
-        track.style.transform = `translate3d(${x}px,0,0)`;
+      const base = SEQ * CENTER_COPY; // ortadaki kopyanın ilk öğesi
+      if (track && off.length > base + i + 1) {
+        const cFrom = off[base + i];       // aktif başlık merkezde
+        const cTo = off[base + i + 1];     // sıradaki başlık merkezde
+        let target = cFrom;
+        if (!reduceRef.current) {
+          const lead = Math.min(SCROLL_LEAD, segDur * 0.5);
+          const tLeft = segEnd - ct;
+          if (tLeft < lead) {
+            // segment sonuna SCROLL_LEAD sn kala: sıradakine yumuşakça kay
+            const q = 1 - tLeft / lead;
+            target = cFrom + (cTo - cFrom) * easeInOut(q);
+          }
+        }
+        track.style.transform = `translate3d(${vpCenterRef.current - target}px,0,0)`;
       }
       raf = requestAnimationFrame(tick);
     };
@@ -92,28 +115,28 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
 
   return (
     <div className="absolute inset-0 z-10 pointer-events-none">
-      {/* öne çıkan başlık — video merkezinde */}
+      {/* öne çıkan başlık — bant ortasından kopup merkeze yükselir */}
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full px-6 flex justify-center">
         <AnimatePresence mode="wait">
           <motion.h1
             key={seg}
             className="text-white font-extrabold tracking-tight leading-[1.05] text-center whitespace-nowrap text-3xl sm:text-5xl lg:text-7xl"
             style={disp}
-            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 120, scale: 0.72, filter: "blur(6px)" }}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: liftY, scale: 0.36, filter: "blur(4px)" }}
             animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-            exit={reduce ? { opacity: 0 } : { opacity: 0, y: 60, scale: 0.85, filter: "blur(6px)" }}
-            transition={{ duration: reduce ? 0.3 : 0.7, ease: [0.22, 1, 0.36, 1] }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, y: liftY, scale: 0.36, filter: "blur(4px)" }}
+            transition={{ duration: reduce ? 0.3 : 0.6, ease: [0.22, 1, 0.36, 1] }}
           >
             {TITLES[seg]}
           </motion.h1>
         </AnimatePresence>
       </div>
 
-      {/* alt marquee bandı — sürekli akan başlıklar */}
+      {/* alt marquee bandı — sonsuz, dikişsiz; segment öncesi yumuşak kayar */}
       <div ref={vpRef} className="absolute bottom-24 left-0 right-0 overflow-hidden">
         <div ref={trackRef} className="relative flex w-max will-change-transform">
-          {[...TITLES, ...TITLES].map((t, idx) => {
-            const active = idx % TITLES.length === seg;
+          {BAND.map((t, idx) => {
+            const active = idx % SEQ === seg;
             return (
               <span
                 key={idx}
