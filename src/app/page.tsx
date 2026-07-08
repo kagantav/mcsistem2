@@ -167,9 +167,7 @@ function Hero() {
       <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(0,16,34,0.5) 0%, rgba(0,16,34,0.28) 38%, rgba(0,16,34,0.93) 100%)" }} />
       <div className="absolute inset-0 mc-grid opacity-20" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 h-full flex flex-col justify-center">
-        <HeroServices videoId="mc-hero-video" />
-      </div>
+      <HeroServices videoId="mc-hero-video" />
 
       <motion.div className="absolute bottom-7 left-1/2 -translate-x-1/2 text-white/55 text-[11px] tracking-[0.3em] uppercase flex flex-col items-center gap-2">
         <motion.span animate={{ y: [0, 8, 0] }} transition={{ duration: 1.6, repeat: Infinity }}>↓</motion.span>
