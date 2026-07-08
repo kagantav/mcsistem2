@@ -392,7 +392,7 @@ export const references: { file: string; name: string }[] = [
 export type Blog = { title: string; date: string; category: string; image: string; excerpt: string };
 export const blogs: Blog[] = [
   {
-    title: "Anahtar Teslim Mühendislik: 25 Yıllık Yaklaşımımız",
+    title: "MC Sistem Tecrübesiyle Elektromekanik Sistemler",
     date: "22 Nisan 2026",
     category: "Kurumsal",
     image: "/company/sirket-clean.jpg",
@@ -412,6 +412,13 @@ export const blogs: Blog[] = [
     image: "/services/akilli-ulasim.webp",
     excerpt: "Yapay zeka destekli trafik yönetiminden 5G altyapısına, V2X iletişiminden enerji verimli sensör ağlarına — akıllı ulaşım sistemlerinde bizi bekleyen teknolojik dönüşümleri analiz ettik.",
   },
+  {
+    title: "İstanbul Havalimanı'nda 5. Faz İşletme Projesi",
+    date: "4 Şubat 2026",
+    category: "Proje Güncellemesi",
+    image: "/services/akilli-ulasim.webp",
+    excerpt: "Yapay zeka destekli trafik yönetiminden 5G altyapısına, V2X iletişiminden enerji verimli sensör ağlarına — akıllı ulaşım sistemlerinde bizi bekleyen teknolojik dönüşümleri analiz ettik.",
+  }
 ];
 
 // Banner daktilo metinleri
