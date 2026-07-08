@@ -32,6 +32,34 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
   const segRef = useRef(-1);
   const progressRef = useRef(0); // segment içi ilerleme, imperatif okuma için
 
+  const vpRef = useRef<HTMLDivElement | null>(null);      // bant görüş alanı (overflow hidden)
+  const trackRef = useRef<HTMLDivElement | null>(null);   // kayan iz
+  const itemRefs = useRef<(HTMLSpanElement | null)[]>([]); // her başlık öğesi (2× kopya)
+  const offsetsRef = useRef<number[]>([]);                 // segment i için merkez ofseti, uzunluk N+1
+  const vpCenterRef = useRef(0);                           // görüş alanı yatay merkezi
+
+  useEffect(() => {
+    const N = TITLES.length;
+    const measure = () => {
+      const vp = vpRef.current;
+      if (!vp) return;
+      vpCenterRef.current = vp.clientWidth / 2;
+      const offs: number[] = [];
+      for (let k = 0; k <= N; k++) {
+        const el = itemRefs.current[k];
+        if (el) offs[k] = el.offsetLeft + el.offsetWidth / 2;
+      }
+      offsetsRef.current = offs;
+    };
+    measure();
+    // Custom font (--f-display) yüklenince genişlikler değişebilir → yeniden ölç
+    if (typeof document !== "undefined" && "fonts" in document) {
+      (document as Document).fonts.ready.then(measure).catch(() => {});
+    }
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
   useEffect(() => {
     const vid = document.getElementById(videoId) as HTMLVideoElement | null;
     let raf = 0;
@@ -41,6 +69,15 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
       const { i, p } = segAt(ct, dur);
       progressRef.current = p;
       if (i !== segRef.current) { segRef.current = i; setSeg(i); }
+
+      const off = offsetsRef.current;
+      const track = trackRef.current;
+      if (track && off.length > i + 1) {
+        const from = off[i];
+        const to = off[i + 1];
+        const x = vpCenterRef.current - (from + (to - from) * p);
+        track.style.transform = `translate3d(${x}px,0,0)`;
+      }
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
@@ -61,6 +98,23 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
             {TITLES[seg]}
           </motion.h1>
         </AnimatePresence>
+      </div>
+
+      {/* alt marquee bandı — sürekli akan başlıklar */}
+      <div ref={vpRef} className="absolute bottom-24 left-0 right-0 overflow-hidden">
+        <div ref={trackRef} className="relative flex w-max will-change-transform">
+          {[...TITLES, ...TITLES].map((t, idx) => (
+            <span
+              key={idx}
+              ref={(el) => { itemRefs.current[idx] = el; }}
+              className="inline-flex items-center whitespace-nowrap text-white/35 font-semibold text-lg sm:text-2xl"
+              style={disp}
+            >
+              {t}
+              <span className="mx-6 sm:mx-10 text-white/20">·</span>
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );
