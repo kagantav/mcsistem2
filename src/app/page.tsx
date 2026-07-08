@@ -165,7 +165,6 @@ function Hero() {
         </div>
       </div>
       <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(0,16,34,0.5) 0%, rgba(0,16,34,0.28) 38%, rgba(0,16,34,0.93) 100%)" }} />
-      <div className="absolute inset-0 mc-grid opacity-20" />
 
       <HeroServices videoId="mc-hero-video" />
 
