@@ -17,7 +17,12 @@ const TITLES = [
 const SEQ = TITLES.length;
 const COPIES = 7;         // dikişsiz sonsuz bant için yeterli kopya
 const CENTER_COPY = 3;    // ortaya hizalanan kopya (soluna 3 kopya dolgu kalır → boşluk yok)
-const SCROLL_LEAD = 1.6;  // segment değişiminden kaç sn önce bant kaymaya + başlık yükselmeye başlar
+
+// Geçiş koreografisi (saniye): in → bant kaydır → çık. Toplam W, segment sonuna denk gelir.
+const DESC = 0.5;  // eski başlık ortadan aşağı banda iner
+const SCRL = 0.6;  // bant bir yuva kayıp sıradakini ortaya getirir
+const RISE = 0.7;  // yeni başlık banttan çıkıp yukarı yükselir
+const TRANS_W = DESC + SCRL + RISE; // 1.8s — segment değişiminden bu kadar önce başlar
 
 // bantta 7 kopya, düz dizi
 const BAND = Array.from({ length: COPIES }, () => TITLES).flat();
@@ -83,17 +88,16 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
     const tick = () => {
       const dur = vid && isFinite(vid.duration) && vid.duration > 0 ? vid.duration : fallbackDur;
       const ct = vid && isFinite(vid.currentTime) ? vid.currentTime % dur : (performance.now() / 1000) % dur;
-      const { i, segEnd, segDur } = segAt(ct, dur);
-      const lead = Math.min(SCROLL_LEAD, segDur * 0.5);
+      const { i, segEnd } = segAt(ct, dur);
       const tLeft = segEnd - ct;
-      const scrolling = !reduceRef.current && tLeft < lead;
+      const inWin = !reduceRef.current && tLeft < TRANS_W;
 
-      // Öne çıkan başlık: kayma başlayınca (segment değişiminden ~lead sn önce)
-      // sıradakine geçer → yükselme ile kayma eşzamanlı olur.
-      const featuredIdx = scrolling ? (i + 1) % SEQ : i;
+      // Öne çıkan başlık: geçiş penceresi başlayınca sıradakine geçer.
+      // mode="wait" + gecikmeli giriş → önce eski iner, sonra bant kayar, sonra yeni çıkar.
+      const featuredIdx = inWin ? (i + 1) % SEQ : i;
       if (featuredIdx !== featRef.current) { featRef.current = featuredIdx; setFeatured(featuredIdx); }
 
-      // Bant: aktif başlık ortada park; son `lead` sn'de sıradakine yumuşak kayar.
+      // Bant: pencere içinde faz-faz — in(park) → kaydır → sonrakinde park.
       const off = offsetsRef.current;
       const track = trackRef.current;
       const base = SEQ * CENTER_COPY;
@@ -101,9 +105,13 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
         const cFrom = off[base + i];
         const cTo = off[base + i + 1];
         let target = cFrom;
-        if (scrolling) {
-          const q = 1 - tLeft / lead;
-          target = cFrom + (cTo - cFrom) * easeInOut(q);
+        if (inWin) {
+          const elapsed = TRANS_W - tLeft; // 0..TRANS_W
+          if (elapsed <= DESC) target = cFrom;                       // in: bant park (eski başlık yuvasına iner)
+          else if (elapsed <= DESC + SCRL) {                         // kaydır: sıradakini ortaya getir
+            const q = (elapsed - DESC) / SCRL;
+            target = cFrom + (cTo - cFrom) * easeInOut(q);
+          } else target = cTo;                                       // çık: sıradaki ortada park
         }
         track.style.transform = `translate3d(${vpCenterRef.current - target}px,0,0)`;
       }
@@ -116,10 +124,10 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
 
   return (
     <div className="absolute inset-0 z-10 pointer-events-none">
-      {/* öne çıkan başlık — bant kayarken eşzamanlı olarak aşağıdan kopup büyüyerek yükselir.
-          grid-overlap: giriş ve çıkış aynı hücrede üst üste, eşzamanlı animasyon. */}
+      {/* öne çıkan başlık — mekik: eski ortadan aşağı banda iner, sonra yeni banttan çıkıp yükselir.
+          grid-overlap: giriş/çıkış aynı hücrede; mode="wait" ile sıralı, girişte SCRL gecikmesi bant kaymasına denk gelir. */}
       <div className="absolute inset-0 grid place-items-center px-6">
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           <motion.h1
             key={featured}
             className="[grid-area:1/1] text-white font-extrabold tracking-tight leading-[1.05] text-center whitespace-nowrap text-3xl sm:text-5xl lg:text-7xl"
@@ -128,12 +136,12 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
             animate={
               reduce
                 ? { opacity: 1, transition: { duration: 0.3 } }
-                : { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { duration: 1.3, ease: EASE } }
+                : { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { duration: RISE, delay: SCRL, ease: EASE } }
             }
             exit={
               reduce
-                ? { opacity: 0, transition: { duration: 0.3 } }
-                : { opacity: 0, y: liftY, scale: 0.36, filter: "blur(4px)", transition: { duration: 0.5, ease: EASE } }
+                ? { opacity: 0, transition: { duration: 0.2 } }
+                : { opacity: 0, y: liftY, scale: 0.36, filter: "blur(4px)", transition: { duration: DESC, ease: EASE } }
             }
           >
             {TITLES[featured]}
@@ -141,7 +149,7 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
         </AnimatePresence>
       </div>
 
-      {/* alt marquee bandı — sonsuz, dikişsiz; segment öncesi yumuşak kayar */}
+      {/* alt marquee bandı — sonsuz, dikişsiz; geçişte bir yuva kayar */}
       <div ref={vpRef} className="absolute bottom-24 left-0 right-0 overflow-hidden">
         <div ref={trackRef} className="relative flex w-max will-change-transform">
           {BAND.map((t, idx) => {
