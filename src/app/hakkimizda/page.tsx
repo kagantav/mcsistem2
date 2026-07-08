@@ -4,10 +4,12 @@ import { SiteFooter } from "@/components/site-footer";
 import { PageHero } from "@/components/page-hero";
 import { Reveal } from "@/components/reveal";
 import { ReferenceLogos } from "@/components/reference-logos";
-import { SpotlightCard } from "@/components/spotlight-card";
-import { CountUp } from "@/components/fx";
+import { Accordion } from "@/components/accordion";
+import { CertCards } from "@/components/cert-cards";
+import { ValueCards } from "@/components/value-cards";
+import { MissionVision } from "@/components/mission-vision";
 import { ParallaxImage } from "@/components/parallax-image";
-import { company, stats } from "@/lib/content";
+import { about, managementSystem } from "@/lib/content";
 
 const NAVY = "#002b4c";
 const BLUE = "#2f6fe0";
@@ -15,66 +17,86 @@ const disp = { fontFamily: "var(--f-display)" };
 
 export const metadata = { title: "Kurumsal — MC Sistem" };
 
-const CERTS = [
-  { code: "ISO 9001", label: "Kalite Yönetimi" },
-  { code: "ISO 14001", label: "Çevre Yönetimi" },
-  { code: "ISO 45001", label: "İş Sağlığı & Güvenliği" },
-];
-
 export default function Hakkimizda() {
   return (
     <div style={{ fontFamily: "var(--f-body)" }}>
       <SiteHeader />
 
-      <PageHero title="Hakkımızda" image="/company/sirket.jpg" />
+      <PageHero title="Hakkımızda" image="/company/sirket-clean.jpg" />
 
       {/* HAKKIMIZDA */}
-      <section id="hakkimizda" className="py-16 lg:py-28 bg-white text-[#10243a]">
-        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <section className="py-16 lg:py-28 bg-white text-[#10243a]">
+        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <Reveal>
-            <ParallaxImage src="/company/sirket.jpg" alt="MC Sistem" className="rounded-3xl shadow-2xl aspect-[4/3]" />
+            <ParallaxImage src="/company/sirket-clean.jpg" alt="MC Sistem" className="rounded-[1.6rem] shadow-2xl aspect-[4/5] sm:aspect-[4/3] lg:aspect-[5/6]" />
           </Reveal>
           <Reveal delay={0.1}>
-            <p className="text-[#3a4d63] text-xl md:text-2xl leading-relaxed font-medium mb-10" style={disp}>{company.short}</p>
-            <div className="grid grid-cols-3 gap-3 sm:gap-6">
-              {stats.slice(0, 3).map((s) => (
-                <div key={s.label} className="min-w-0">
-                  <span className="block h-[3px] w-7 mb-2.5" style={{ background: BLUE }} />
-                  <CountUp value={s.value} className="block text-2xl sm:text-3xl lg:text-4xl font-extrabold" style={{ ...disp, color: NAVY }} />
-                  <div className="mt-1 text-[11px] sm:text-xs text-[#6a7a90] leading-tight">{s.label}</div>
-                </div>
+            <div className="space-y-4 mb-9">
+              {about.paragraphs.map((p) => (
+                <p key={p} className="text-[#3a4d63] text-base lg:text-lg leading-relaxed">{p}</p>
               ))}
             </div>
+
+            <h3 className="text-sm font-bold tracking-tight mb-4" style={{ ...disp, color: NAVY }}>Uzmanlık Alanları</h3>
+            <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-2.5 mb-6">
+              {about.expertise.map((e) => (
+                <li key={e} className="flex items-center gap-3 text-[#233246] text-sm font-medium">
+                  <span className="h-px w-5 shrink-0" style={{ background: BLUE }} />
+                  {e}
+                </li>
+              ))}
+            </ul>
+            <p className="text-[#6a7a90] text-sm leading-relaxed mb-8">{about.expertiseNote}</p>
+
+            <a
+              href="/hizmetlerimiz"
+              className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#2f6fe0]"
+              style={{ background: NAVY }}
+            >
+              Faaliyet Alanlarını İnceleyin <span aria-hidden>→</span>
+            </a>
           </Reveal>
         </div>
       </section>
 
-      {/* KALİTE POLİTİKAMIZ — minimal, görsel sertifika madalyonları */}
-      <section id="kalite" className="relative py-20 lg:py-32 bg-[#001426] text-white overflow-hidden">
+      {/* VİZYON & MİSYON */}
+      <MissionVision />
+
+      {/* KURUMSAL DEĞERLER — görsel arka planlı kartlar */}
+      <section className="py-16 lg:py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <Reveal>
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-center mb-12 lg:mb-16" style={{ ...disp, color: NAVY }}>
+              Kurumsal Değerlerimiz
+            </h2>
+          </Reveal>
+          <ValueCards />
+        </div>
+      </section>
+
+      {/* ENTEGRE YÖNETİM SİSTEMİ + SERTİFİKALAR */}
+      <section className="relative py-20 lg:py-32 bg-[#001426] text-white overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[42rem] h-[42rem] rounded-full blur-[150px] opacity-20" style={{ background: BLUE }} />
         <div className="absolute inset-0 mc-grid opacity-[0.12]" />
-        <div className="relative max-w-6xl mx-auto px-6 text-center">
+
+        <div className="relative max-w-3xl mx-auto px-6 text-center mb-14 lg:mb-16">
           <Reveal>
-            <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4" style={disp}>Kalite Politikamız</h2>
-            <p className="text-white/55 text-lg max-w-xl mx-auto mb-14 lg:mb-20">Uluslararası standartlarda sertifikalı, sürdürülebilir süreçler.</p>
+            <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6" style={disp}>Entegre Yönetim Sistemi</h2>
+            <p className="text-white/60 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">{managementSystem.intro}</p>
           </Reveal>
-          <div className="grid sm:grid-cols-3 gap-6 lg:gap-8">
-            {CERTS.map((c, i) => (
-              <Reveal key={c.code} delay={i * 0.1}>
-                <SpotlightCard className="group text-center rounded-[28px] border border-white/10 bg-white/[0.03] px-8 py-12 hover:bg-white/[0.06] hover:border-[#2f6fe0]/45 hover:-translate-y-1.5 transition-all duration-300" spotlightColor="rgba(127,176,255,0.22)">
-                  <div className="relative mx-auto mb-7 w-20 h-20">
-                    <span className="absolute inset-0 rounded-full border border-white/15 group-hover:scale-110 transition-transform duration-500" />
-                    <span className="absolute inset-0 rounded-full border-2 opacity-50 group-hover:opacity-100 transition-opacity" style={{ borderColor: BLUE, clipPath: "inset(0 0 50% 0)" }} />
-                    <span className="absolute inset-0 flex items-center justify-center">
-                      <svg className="w-9 h-9" viewBox="0 0 24 24" fill="none" stroke="#7fb0ff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg>
-                    </span>
-                  </div>
-                  <div className="text-3xl lg:text-[2rem] font-extrabold tracking-tight" style={disp}>{c.code}</div>
-                  <div className="text-sm text-white/50 mt-2">{c.label}</div>
-                </SpotlightCard>
-              </Reveal>
-            ))}
-          </div>
+        </div>
+
+        <div className="relative max-w-3xl mx-auto px-6">
+          <Reveal delay={0.1}>
+            <Accordion items={managementSystem.groups} />
+          </Reveal>
+          <Reveal delay={0.15}>
+            <p className="mt-10 text-center text-white/70 text-base md:text-lg leading-relaxed">“{managementSystem.closing}”</p>
+          </Reveal>
+        </div>
+
+        <div className="relative max-w-5xl mx-auto px-6 mt-20 lg:mt-24">
+          <CertCards />
         </div>
       </section>
 

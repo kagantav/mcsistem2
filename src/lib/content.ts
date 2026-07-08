@@ -18,6 +18,93 @@ export const stats = [
   { value: "25+", label: "Yıllık saha tecrübesi" },
 ];
 
+// Kurumsal sayfası — müşteriden birebir alınan içerik
+export const about = {
+  paragraphs: [
+    "MC Sistem, ulaştırma altyapısı ve kritik tesis projelerinde elektromekanik sistem entegrasyonu alanında faaliyet gösteren Türkiye merkezli bir taahhüt firmasıdır.",
+    "Yüksek teknoloji gerektiren projelerde edindiği uygulama deneyimi ve mühendislik bilgi birikimiyle, farklı disiplinlere ait sistemlerin uyum içinde çalışmasını sağlayarak anahtar teslim projeler gerçekleştirmektedir.",
+    "Kalite, güvenilirlik ve uluslararası standartları esas alan çalışma anlayışıyla MC Sistem, Türkiye'de ve uluslararası projelerde faaliyetlerini sürdürmektedir.",
+  ],
+  expertise: [
+    "Elektromekanik Sistemler",
+    "Sinyalizasyon Sistemleri",
+    "Telekomünikasyon Sistemleri",
+    "Kontrol ve Haberleşme Sistemleri",
+    "SCADA Sistemleri",
+    "Elektrifikasyon Sistemleri",
+    "Akıllı Ulaşım Sistemleri (ITS)",
+  ],
+  expertiseNote:
+    "Bu sistemler; karayolu, tünel, demiryolu, metro, havaalanı ve yer altı tesisleri gibi kritik altyapı projelerinde anahtar teslim olarak uygulanmaktadır.",
+};
+
+export const missionVision = {
+  mission:
+    "İleri teknoloji içeren nitelikli projelerde sahip olunan mühendislik kabiliyeti ve benimsenen kalite anlayışıyla dünya genelinde anahtar teslim projeler gerçekleştirmek.",
+  vision: "Katma değeri yüksek projelerde, güvenilirliğiyle uluslararası ölçekte tercih edilen bir firma olmak.",
+};
+
+export type CoreValue = { slug: string; title: string; desc: string; image: string; tint: [string, string] };
+export const coreValues: CoreValue[] = [
+  { slug: "yenilikcilik", title: "Yenilikçilik", desc: "Teknolojik gelişmeleri yakından takip ederek, projelerde ve uygulama süreçlerinde katma değer oluşturan yenilikçi yaklaşımlar geliştirmektir.", image: "/kurumsal-degerler/yenilikcilik.webp", tint: ["#0a2a4a", "#123a63"] },
+  { slug: "hiz", title: "Hız", desc: "Projelerin hızlı mobilizasyonunu sağlayarak planlama ve uygulama süreçlerini etkin şekilde yürütmektir.", image: "/kurumsal-degerler/hiz.webp", tint: ["#0d2f52", "#1c4f8a"] },
+  { slug: "surekli-gelisim", title: "Sürekli Gelişim", desc: "Gelişimi sürekli ölçerek iyileştirmeyi esas almak ve belirlenen hedeflere ulaşmaktır.", image: "/kurumsal-degerler/surekli-gelisim.webp", tint: ["#08243f", "#0f3a66"] },
+  { slug: "isg", title: "İş Sağlığı ve Güvenliği", desc: "İş sağlığını tüm faaliyetlerin ayrılmaz parçası görmek ve \"Sıfır Kaza\" hedefiyle güvenli çalışma ortamları oluşturmaktır.", image: "/kurumsal-degerler/is-guvenligi.webp", tint: ["#0a2c4d", "#17457a"] },
+  { slug: "cevre", title: "Çevre Duyarlılığı", desc: "Çevre dostu yaklaşımı benimseyerek doğal kaynakları verimli kullanmak ve çevresel etkileri en aza indirmektir.", image: "/kurumsal-degerler/cevre-duyarliligi.webp", tint: ["#0b2e40", "#12506b"] },
+];
+
+export const managementSystem = {
+  intro:
+    "MC Sistem, vizyonu doğrultusunda kurmuş olduğu Entegre Yönetim Sisteminin sürdürülebilirliğini sağlamak amacıyla aşağıdaki hususları taahhüt etmektedir.",
+  groups: [
+    {
+      title: "Müşteri Odaklılık ve Kalite Anlayışı",
+      items: [
+        "Gelişen teknolojileri ve sektördeki güncel gelişmeleri yakından takip ederek müşteri beklentilerini aşan üretim ve hizmet gerçekleştirmeyi,",
+        "En uygun, en doğru ve en ekonomik çözümleri en hızlı şekilde üreterek uygunsuzlukların önüne geçmeyi ve müşteri ihtiyaçlarını en üst seviyede karşılayan güvenilir bir firma olmayı,",
+        "Deneyim ve birikimini artırarak sunduğu hizmet kalitesi ile ülke ekonomisine katkıda bulunmayı,",
+        "Müşteri memnuniyetini, çalışan memnuniyetini ve yüksek hizmet kalitesini tesis etmeyi.",
+      ],
+    },
+    {
+      title: "Çevrenin Korunması ve Sürdürülebilirlik",
+      items: [
+        "Çevre kirlenmesine etki eden şirket içi ve dışı etkenleri en aza indirerek çevrenin korunmasını sağlamayı ve gelecek nesillere saygılı bir kuruluş olmayı,",
+        "Doğal kaynakları etkin ve akılcı bir şekilde kullanmayı, atık yönetiminde geri dönüşüm teknolojilerini öncelikli olarak uygulamayı,",
+        "Çevre performansını artırmak amacıyla çevre yönetim sistemini sürekli iyileştirmeyi ve bu bilinci tüm faaliyet sahalarında sistematik hâle getirmeyi.",
+      ],
+    },
+    {
+      title: "İş Sağlığı ve Güvenliği (İSG)",
+      items: [
+        "\"Sıfır İş Kazası ve Sıfır Meslek Hastalığı\" hedefini benimseyerek risk değerlendirmesi yoluyla emniyetsiz durumları önceden tespit etmeyi ve ortadan kaldırmayı,",
+        "Çalışanlarının, alt yüklenicilerinin ve ziyaretçilerinin sağlık, güvenlik ve sosyal refahını sağlamayı ve İSG kurallarına tam riayet edilmesini sağlamayı,",
+        "Gerekli araç, gereç ve Kişisel Koruyucu Ekipmanların (KKE) eksiksiz bulundurulmasını ve kullanımının denetlenmesini sağlamayı,",
+        "Çalışanları için düzenli sağlık gözetimi sağlayarak sağlıklı çalışma ortamları oluşturmayı.",
+      ],
+    },
+    {
+      title: "Yasal Uyum, Eğitim ve Sürekli İyileştirme",
+      items: [
+        "Yürürlükteki kalite, çevre ve İSG mevzuatına, yasal düzenlemelere, uygunluk yükümlülüklerine ve standart şartlarına tam uyum sağlamayı,",
+        "Tüm paydaşlarının bilincini geliştirmek amacıyla düzenli eğitim ve bilinçlendirme faaliyetleri organize ederek kurumsal aile kültürünü güçlendirmeyi,",
+        "Süreç yönetiminde sistem yaklaşımıyla maksimum iletişim ve verimliliği sağlamayı, verimlilik esasına dayalı sürekli iyileştirmeyi sürdürülebilir kılmayı,",
+        "Stratejilerine bağlı kurumsal yönetim anlayışıyla liderlik kültürünü geliştirmeyi ve İSG performansını artırmak için yeterli kaynak ayırmayı.",
+      ],
+    },
+  ],
+  closing:
+    "Kalite, Çevre ve İSG sistemlerini bir bütünlük içinde yönetmeyi, sistem etkinliğini düzenli olarak izlemeyi ve topluma örnek bir kuruluş olmayı İSG, Çevre ve Kalite Politikası olarak taahhüt etmektedir.",
+};
+
+export type Certificate = { code: string; label: string; file: string };
+export const certificates: Certificate[] = [
+  { code: "ISO 9001", label: "Kalite Yönetim Sistemi", file: "iso-9001.pdf" },
+  { code: "ISO 14001", label: "Çevre Yönetim Sistemi", file: "iso-14001.pdf" },
+  { code: "ISO 45001", label: "İş Sağlığı ve Güvenliği Yönetim Sistemi", file: "iso-45001.pdf" },
+  { code: "ISO 27001", label: "Bilgi Güvenliği Yönetim Sistemi", file: "iso-27001.pdf" },
+];
+
 export type Capability = { title: string; desc: string };
 
 export type Service = {
@@ -308,7 +395,7 @@ export const blogs: Blog[] = [
     title: "Anahtar Teslim Mühendislik: 25 Yıllık Yaklaşımımız",
     date: "22 Nisan 2026",
     category: "Kurumsal",
-    image: "/company/sirket.jpg",
+    image: "/company/sirket-clean.jpg",
     excerpt: "Çeyrek asrı aşan saha tecrübemizle anahtar teslim elektromekanik mühendisliği nasıl tanımlıyor, hangi prensiplerle çalışıyoruz? MC Sistem'in kurumsal yaklaşımını derledik.",
   },
   {
