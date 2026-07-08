@@ -20,6 +20,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html
       lang="tr"
+      data-scroll-behavior="smooth"
       className={`${display.variable} ${body.variable} ${syne.variable} ${fraunces.variable} ${sora.variable} ${manrope.variable} ${mono.variable} antialiased`}
     >
       <body>{children}</body>

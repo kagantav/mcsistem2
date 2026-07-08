@@ -7,15 +7,17 @@ const disp = { fontFamily: "var(--f-display)" };
 
 /**
  * Alt sayfa başlık alanı: ortalı tek başlık + animasyonlu arka plan.
- * Açılışta panel header'ın altından aşağı doğru açılarak gelir (clip reveal),
- * altında yumuşak kavis geçişi ve scroll ipucu.
+ * Açılışta panel header çubuğunun hemen altından yükseklik 0'dan gerçek boyutuna
+ * doğrusal bir hızla iner (roller blind gibi); metin ancak panel inişini
+ * bitirmeye yaklaşınca belirir, böylece "iniyor" hissi net okunur.
+ * (clip-path kullanılmıyor, bu yüzden dalga kenarında hairline oluşmaz.)
  */
 export function PageHero({ title, image, curveColor = "#ffffff" }: { title: string; image?: string; curveColor?: string }) {
   return (
     <motion.section
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      initial={{ height: 0 }}
+      animate={{ height: "auto" }}
+      transition={{ duration: 0.4, ease: "easeInOut" }}
       className="relative overflow-hidden bg-[#001426] text-white -mb-px"
     >
       {image && <img src={image} alt="" className="absolute inset-0 w-full h-full object-cover opacity-[0.18]" />}
@@ -43,14 +45,14 @@ export function PageHero({ title, image, curveColor = "#ffffff" }: { title: stri
         <motion.div
           initial={{ opacity: 0, scaleX: 0 }}
           animate={{ opacity: 1, scaleX: 1 }}
-          transition={{ duration: 0.5, delay: 0.32, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.3, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
           className="mx-auto mb-7 h-1 w-16 rounded-full"
           style={{ background: "#2f6fe0", transformOrigin: "center" }}
         />
         <motion.h1
-          initial={{ opacity: 0, y: 22 }}
+          initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.38, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.35, delay: 0.33, ease: [0.22, 1, 0.36, 1] }}
           className="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.04]"
           style={disp}
         >
@@ -64,7 +66,7 @@ export function PageHero({ title, image, curveColor = "#ffffff" }: { title: stri
         className="absolute left-1/2 -translate-x-1/2 bottom-[68px] text-white/45 text-xl"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, y: [0, 8, 0] }}
-        transition={{ opacity: { delay: 0.8, duration: 0.5 }, y: { duration: 1.6, repeat: Infinity, delay: 0.8 } }}
+        transition={{ opacity: { delay: 0.55, duration: 0.4 }, y: { duration: 1.6, repeat: Infinity, delay: 0.55 } }}
       >
         ↓
       </motion.div>

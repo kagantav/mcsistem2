@@ -172,7 +172,6 @@ function Hero() {
       </div>
 
       <motion.div className="absolute bottom-7 left-1/2 -translate-x-1/2 text-white/55 text-[11px] tracking-[0.3em] uppercase flex flex-col items-center gap-2">
-        <span>Keşfet</span>
         <motion.span animate={{ y: [0, 8, 0] }} transition={{ duration: 1.6, repeat: Infinity }}>↓</motion.span>
       </motion.div>
     </section>
