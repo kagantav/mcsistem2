@@ -18,11 +18,9 @@ const SEQ = TITLES.length;
 const COPIES = 7;         // dikişsiz sonsuz bant için yeterli kopya
 const CENTER_COPY = 3;    // ortaya hizalanan kopya (soluna 3 kopya dolgu kalır → boşluk yok)
 
-// Geçiş koreografisi (saniye): in → bant kaydır → çık. Toplam W, segment sonuna denk gelir.
-const DESC = 0.5;  // eski başlık ortadan aşağı banda iner
-const SCRL = 0.6;  // bant bir yuva kayıp sıradakini ortaya getirir
-const RISE = 0.7;  // yeni başlık banttan çıkıp yukarı yükselir
-const TRANS_W = DESC + SCRL + RISE; // 1.8s — segment değişiminden bu kadar önce başlar
+// Geçiş: eski aşağı banda inerken, yeni banttan yukarı çıkar, aynı anda bant kayar — hepsi eşzamanlı.
+const TRANS_W = 1.2;  // geçiş penceresi: segment değişiminden bu kadar önce başlar (bant kayması)
+const SHUTTLE = 1.0;  // in/çık süresi (eşzamanlı, üst üste)
 
 // bantta 7 kopya, düz dizi
 const BAND = Array.from({ length: COPIES }, () => TITLES).flat();
@@ -106,12 +104,8 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
         const cTo = off[base + i + 1];
         let target = cFrom;
         if (inWin) {
-          const elapsed = TRANS_W - tLeft; // 0..TRANS_W
-          if (elapsed <= DESC) target = cFrom;                       // in: bant park (eski başlık yuvasına iner)
-          else if (elapsed <= DESC + SCRL) {                         // kaydır: sıradakini ortaya getir
-            const q = (elapsed - DESC) / SCRL;
-            target = cFrom + (cTo - cFrom) * easeInOut(q);
-          } else target = cTo;                                       // çık: sıradaki ortada park
+          const q = (TRANS_W - tLeft) / TRANS_W; // 0..1 pencere boyunca — eşzamanlı kayma
+          target = cFrom + (cTo - cFrom) * easeInOut(q);
         }
         track.style.transform = `translate3d(${vpCenterRef.current - target}px,0,0)`;
       }
@@ -124,10 +118,10 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
 
   return (
     <div className="absolute inset-0 z-10 pointer-events-none">
-      {/* öne çıkan başlık — mekik: eski ortadan aşağı banda iner, sonra yeni banttan çıkıp yükselir.
-          grid-overlap: giriş/çıkış aynı hücrede; mode="wait" ile sıralı, girişte SCRL gecikmesi bant kaymasına denk gelir. */}
+      {/* öne çıkan başlık — eşzamanlı mekik: eski aşağı banda inerken yeni banttan yukarı çıkar (üst üste).
+          grid-overlap: giriş/çıkış aynı hücrede, aynı anda animasyon. */}
       <div className="absolute inset-0 grid place-items-center px-6">
-        <AnimatePresence mode="wait">
+        <AnimatePresence>
           <motion.h1
             key={featured}
             className="[grid-area:1/1] text-white font-extrabold tracking-tight leading-[1.05] text-center whitespace-nowrap text-3xl sm:text-5xl lg:text-7xl"
@@ -136,12 +130,12 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
             animate={
               reduce
                 ? { opacity: 1, transition: { duration: 0.3 } }
-                : { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { duration: RISE, delay: SCRL, ease: EASE } }
+                : { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { duration: SHUTTLE, ease: EASE } }
             }
             exit={
               reduce
                 ? { opacity: 0, transition: { duration: 0.2 } }
-                : { opacity: 0, y: liftY, scale: 0.36, filter: "blur(4px)", transition: { duration: DESC, ease: EASE } }
+                : { opacity: 0, y: liftY, scale: 0.36, filter: "blur(4px)", transition: { duration: SHUTTLE, ease: EASE } }
             }
           >
             {TITLES[featured]}
