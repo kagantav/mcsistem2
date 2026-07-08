@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 const disp = { fontFamily: "var(--f-display)" };
 
@@ -31,6 +31,10 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
   const [seg, setSeg] = useState(0);
   const segRef = useRef(-1);
   const progressRef = useRef(0); // segment içi ilerleme, imperatif okuma için
+  const reduce = useReducedMotion();
+  const reduceRef = useRef(false);
+
+  useEffect(() => { reduceRef.current = !!reduce; }, [reduce]);
 
   const vpRef = useRef<HTMLDivElement | null>(null);      // bant görüş alanı (overflow hidden)
   const trackRef = useRef<HTMLDivElement | null>(null);   // kayan iz
@@ -73,9 +77,10 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
       const off = offsetsRef.current;
       const track = trackRef.current;
       if (track && off.length > i + 1) {
+        const pp = reduceRef.current ? 0 : p;
         const from = off[i];
         const to = off[i + 1];
-        const x = vpCenterRef.current - (from + (to - from) * p);
+        const x = vpCenterRef.current - (from + (to - from) * pp);
         track.style.transform = `translate3d(${x}px,0,0)`;
       }
       raf = requestAnimationFrame(tick);
@@ -94,10 +99,10 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
             key={seg}
             className="text-white font-extrabold tracking-tight leading-[1.05] text-center whitespace-nowrap text-3xl sm:text-5xl lg:text-7xl"
             style={disp}
-            initial={{ opacity: 0, y: 120, scale: 0.72, filter: "blur(6px)" }}
-            animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-            exit={{ opacity: 0, y: 60, scale: 0.85, filter: "blur(6px)" }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 120, scale: 0.72, filter: "blur(6px)" }}
+            animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, y: 60, scale: 0.85, filter: "blur(6px)" }}
+            transition={{ duration: reduce ? 0.3 : 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
             {TITLES[seg]}
           </motion.h1>
@@ -107,17 +112,20 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
       {/* alt marquee bandı — sürekli akan başlıklar */}
       <div ref={vpRef} className="absolute bottom-24 left-0 right-0 overflow-hidden">
         <div ref={trackRef} className="relative flex w-max will-change-transform">
-          {[...TITLES, ...TITLES].map((t, idx) => (
-            <span
-              key={idx}
-              ref={(el) => { itemRefs.current[idx] = el; }}
-              className="inline-flex items-center whitespace-nowrap text-white/35 font-semibold text-lg sm:text-2xl"
-              style={disp}
-            >
-              {t}
-              <span className="mx-6 sm:mx-10 text-white/20">·</span>
-            </span>
-          ))}
+          {[...TITLES, ...TITLES].map((t, idx) => {
+            const active = idx % TITLES.length === seg;
+            return (
+              <span
+                key={idx}
+                ref={(el) => { itemRefs.current[idx] = el; }}
+                className="inline-flex items-center whitespace-nowrap font-semibold text-lg sm:text-2xl transition-opacity duration-500"
+                style={disp}
+              >
+                <span className={active ? "text-white/10" : "text-white/35"}>{t}</span>
+                <span className="mx-6 sm:mx-10 text-white/20">·</span>
+              </span>
+            );
+          })}
         </div>
       </div>
     </div>
