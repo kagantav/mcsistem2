@@ -94,6 +94,10 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
             key={seg}
             className="text-white font-extrabold tracking-tight leading-[1.05] text-center whitespace-nowrap text-3xl sm:text-5xl lg:text-7xl"
             style={disp}
+            initial={{ opacity: 0, y: 120, scale: 0.72, filter: "blur(6px)" }}
+            animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+            exit={{ opacity: 0, y: 60, scale: 0.85, filter: "blur(6px)" }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
             {TITLES[seg]}
           </motion.h1>
