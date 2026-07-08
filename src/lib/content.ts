@@ -141,10 +141,10 @@ export const services: Service[] = [
       { title: "Akıllı Raporlama", desc: "Karar destek verisi, KPI ve trend analiz panelleri." },
     ],
     capabilities: [
-      { title: "Trafik İzleme ve Yönetim Sistemleri", desc: "Sensör ve kameralarla trafik akışını gerçek zamanlı izleyip merkezden yönetiyoruz." },
-      { title: "Tünel Elektromekanik Sistemleri", desc: "Tünellerde havalandırma, aydınlatma, yangın algılama ve kontrol sistemlerini kuruyoruz." },
-      { title: "Şehiriçi Trafik Yönetim Sistemleri", desc: "Sinyalizasyon ve akıllı kavşak çözümleriyle şehir içi trafik akışını optimize ediyoruz." },
-      { title: "Ücret Toplama Sistemleri", desc: "Otoyol ve geçişlerde otomatik (elektronik) ücret toplama altyapısı sağlıyoruz." },
+      { title: "Trafik İzleme ve Yönetim Sistemleri", desc: "Sensör, kamera ve algılayıcı ağlarıyla trafik akışını gerçek zamanlı izliyor; topladığımız veriyi kontrol merkezinde işleyerek olayları anında tespit ediyor, tıkanıklıkları ve müdahale süreçlerini merkezden yönetiyoruz. Tasarımdan devreye almaya kadar tüm süreci anahtar teslim yürütüyoruz." },
+      { title: "Tünel Elektromekanik Sistemleri", desc: "Tünellerde havalandırma, aydınlatma, yangın algılama, CCTV ve anons sistemlerini tek bir SCADA mimarisi altında entegre ediyoruz. Sürücü güvenliğini önceleyen çözümleri uluslararası standartlara uygun olarak kuruyor ve devreye alıyoruz." },
+      { title: "Şehiriçi Trafik Yönetim Sistemleri", desc: "Adaptif sinyalizasyon ve akıllı kavşak çözümleriyle şehir içi trafik akışını yoğunluğa göre gerçek zamanlı optimize ediyoruz. Kavşak koordinasyonu ve öncelikli geçiş uygulamalarıyla seyahat sürelerini ve bekleme kuyruklarını azaltıyoruz." },
+      { title: "Ücret Toplama Sistemleri", desc: "Otoyol, köprü ve geçişlerde durmadan ödemeye imkân tanıyan elektronik ücret toplama (ETC/HGS) altyapısını kuruyoruz. Plaka tanıma, arka ofis ve raporlama sistemleriyle geçişlerin doğru, hızlı ve şeffaf biçimde ücretlendirilmesini sağlıyoruz." },
     ],
   },
   {
@@ -163,9 +163,9 @@ export const services: Service[] = [
       { title: "Anahtar Teslim", desc: "Tasarımdan devreye almaya tüm aşamaları tek noktadan yönetiriz." },
     ],
     capabilities: [
-      { title: "Sinyalizasyon Sistemleri", desc: "Raylı hatlarda güvenli ve kesintisiz seyahat için sinyalizasyon altyapısı kuruyoruz." },
-      { title: "Telekomünikasyon Sistemleri", desc: "Haberleşme, anons ve veri iletişimi için entegre telekomünikasyon çözümleri sunuyoruz." },
-      { title: "Elektrifikasyon Sistemleri", desc: "Katener ve enerji besleme sistemleriyle hatların elektrifikasyonunu gerçekleştiriyoruz." },
+      { title: "Sinyalizasyon Sistemleri", desc: "Raylı hatlarda güvenli ve kesintisiz seyahat için sinyalizasyon altyapısını EN 50126/50128/50129 standartlarına uygun olarak kuruyoruz. Enterlok, hat blok ve tren kontrol sistemleriyle sefer güvenliğini ve hat kapasitesini en üst düzeye çıkarıyoruz." },
+      { title: "Telekomünikasyon Sistemleri", desc: "Sesli haberleşme, yolcu anons/bilgilendirme ve veri iletişimini tek bir omurga üzerinde toplayan entegre telekomünikasyon çözümleri sunuyoruz. Fiber optik ağ, telsiz ve CCTV sistemlerini kontrol merkezleriyle uçtan uca birbirine bağlıyoruz." },
+      { title: "Elektrifikasyon Sistemleri", desc: "Katener, trafo merkezleri ve enerji besleme sistemleriyle hatların elektrifikasyonunu uçtan uca gerçekleştiriyoruz. SCADA tabanlı uzaktan izleme ve koruma altyapısıyla kesintisiz ve güvenli enerji beslemesini güvence altına alıyoruz." },
     ],
   },
   {
@@ -184,8 +184,8 @@ export const services: Service[] = [
       { title: "Operasyonel Destek", desc: "Devreye alım sonrası 7/24 teknik destek ve bakım." },
     ],
     capabilities: [
-      { title: "Elektromekanik ve SCADA Sistemleri", desc: "İstasyon ve hat boyu elektromekanik sistemleri SCADA ile merkezden izleyip yönetiyoruz." },
-      { title: "Sinyalizasyon Sistemleri", desc: "Metro hatlarında yüksek frekanslı ve güvenli sefer için sinyalizasyon sistemleri kuruyoruz." },
+      { title: "Elektromekanik ve SCADA Sistemleri", desc: "İstasyon ve hat boyundaki havalandırma, enerji, aydınlatma ve yangın sistemlerini tek bir SCADA mimarisi altında merkezden izleyip yönetiyoruz. 17'den fazla kritik alt sistemi entegre ederek sürücüsüz işletmeye (GoA4) uygun, kesintisiz operasyon sağlıyoruz." },
+      { title: "Sinyalizasyon Sistemleri", desc: "Metro hatlarında yüksek frekanslı ve güvenli sefer için CBTC tabanlı sinyalizasyon sistemleri kuruyoruz. Otomatik tren kontrolü ve koruma fonksiyonlarıyla sefer aralıklarını kısaltıp hat kapasitesini artırıyor, güvenliği fail-safe tasarımla güvence altına alıyoruz." },
     ],
   },
   {
@@ -204,10 +204,10 @@ export const services: Service[] = [
       { title: "Yolcu Konforu", desc: "Bilgilendirme, iklimlendirme ve yönlendirme entegrasyonu." },
     ],
     capabilities: [
-      { title: "Radar ve Seyrüsefer Sistemleri", desc: "Hava trafiğinin güvenli yönetimi için radar ve seyrüsefer yardımcı sistemleri sağlıyoruz." },
-      { title: "Pist Aydınlatma", desc: "Pist, taksi yolu ve apron aydınlatma (AGL) sistemlerini kuruyor ve devreye alıyoruz." },
-      { title: "Uçak Park Ettirme Sistemi", desc: "Uçakların hassas ve güvenli yanaşması için görsel yanaşma yönlendirme sistemleri sağlıyoruz." },
-      { title: "Havaalanı Bilgi Sistemi", desc: "Uçuş bilgi ekranları (FIDS) ve yolcu bilgilendirme sistemlerini entegre ediyoruz." },
+      { title: "Radar ve Seyrüsefer Sistemleri", desc: "Hava trafiğinin güvenli yönetimi için radar ve seyrüsefer yardımcı (NAVAID) sistemlerini ICAO standartlarına uygun olarak sağlıyoruz. Kalkış, yaklaşma ve iniş fazlarında hassas yönlendirme için altyapıyı kurup devreye alıyoruz." },
+      { title: "Pist Aydınlatma", desc: "Pist, taksi yolu ve apron aydınlatma (AGL) sistemlerini ICAO standartlarında kuruyor ve devreye alıyoruz. Sabit akım regülatörleri ve merkezi izleme/kontrol sistemleriyle her koşulda kesintisiz ve güvenli iniş-kalkış operasyonunu destekliyoruz." },
+      { title: "Uçak Park Ettirme Sistemi", desc: "Uçakların köprüye hassas ve güvenli yanaşması için görsel yanaşma yönlendirme (A-VDGS) sistemleri sağlıyoruz. Lazer tabanlı konumlandırma ve pilot bilgilendirme ekranlarıyla park manevralarını hızlandırıp apron güvenliğini artırıyoruz." },
+      { title: "Havaalanı Bilgi Sistemi", desc: "Uçuş bilgi ekranları (FIDS), anons ve yolcu bilgilendirme sistemlerini terminal genelinde entegre ediyoruz. Uçuş, bagaj ve kapı verilerini gerçek zamanlı işleyerek yolcu yönlendirmesini ve operasyonel koordinasyonu tek merkezden yönetiyoruz." },
     ],
   },
   {
@@ -226,10 +226,10 @@ export const services: Service[] = [
       { title: "Anahtar Teslim", desc: "Etüt, tasarım, kurulum ve devreye alma tek bir elden." },
     ],
     capabilities: [
-      { title: "Yeraltı Altyapı Sistemleri", desc: "Enerji dağıtım galerileri ve teknik tesis bağlantılarını uluslararası standartlarda projelendiriyoruz." },
-      { title: "Kablo Galerileri", desc: "Beton/PVC galeri yapımı, koruma ve havalandırma altyapısını kuruyoruz." },
-      { title: "Fiber Optik Şebeke", desc: "Backbone fiber omurgası, ek (splice) ve terminasyon işlerini yürütüyoruz." },
-      { title: "Devreye Alma & Test", desc: "Hi-Pot, megger ve OTDR testleriyle altyapıyı devreye alıp raporluyoruz." },
+      { title: "Yeraltı Altyapı Sistemleri", desc: "Enerji dağıtım galerileri ve teknik tesis bağlantılarını TS EN ve IEC standartlarına uygun olarak projelendiriyoruz. Etütten devreye almaya kadar tüm süreci anahtar teslim yürütüyor, uzun ömürlü ve düşük bakım maliyetli altyapı kuruyoruz." },
+      { title: "Kablo Galerileri", desc: "Beton/PVC kablo galerilerinin yapımını; koruma, drenaj ve havalandırma altyapısıyla birlikte gerçekleştiriyoruz. İhtiyaca göre büyütülebilen modüler tasarımlarla gelecekteki kablo genişlemelerine uygun, güvenli bir yerleşim sağlıyoruz." },
+      { title: "Fiber Optik Şebeke", desc: "Backbone fiber omurgasının çekimini, ek (splice) ve terminasyon işlerini uçtan uca yürütüyoruz. OTDR ölçüm ve testleriyle her hattın performansını doğrulayıp yüksek kapasiteli, kesintisiz veri iletişimini güvence altına alıyoruz." },
+      { title: "Devreye Alma & Test", desc: "Hi-Pot, megger ve OTDR testleriyle tüm altyapının elektriksel ve optik bütünlüğünü saha kabul süreçlerinde doğruluyoruz. Test sonuçlarını raporlayıp sistemi devreye alarak işletmeye güvenli ve belgelenmiş bir teslim gerçekleştiriyoruz." },
     ],
   },
 ];

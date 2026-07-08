@@ -68,9 +68,7 @@ export function ScopePanels({ items }: { items: Capability[] }) {
             <span className="absolute top-4 right-8 text-[110px] lg:text-[190px] font-extrabold leading-none text-white/[0.06] select-none pointer-events-none" style={disp}>
               0{active + 1}
             </span>
-            <div className="w-12 h-1 mb-6" style={{ background: BLUE }} />
-            <h3 className="text-white text-2xl lg:text-4xl font-extrabold leading-tight mb-4 max-w-md" style={disp}>{c.title}</h3>
-            <p className="text-white/75 text-base lg:text-lg leading-relaxed max-w-md">{c.desc}</p>
+            <p className="text-white/80 text-base lg:text-lg leading-relaxed max-w-lg">{c.desc}</p>
           </motion.div>
         </AnimatePresence>
       </div>
