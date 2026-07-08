@@ -17,17 +17,15 @@ const TITLES = [
 const SEQ = TITLES.length;
 const COPIES = 7;         // dikişsiz sonsuz bant için yeterli kopya
 const CENTER_COPY = 3;    // ortaya hizalanan kopya (soluna 3 kopya dolgu kalır → boşluk yok)
-const SCROLL_LEAD = 1.6;  // segment değişiminden kaç sn önce bant kaymaya başlar
+const SCROLL_LEAD = 1.6;  // segment değişiminden kaç sn önce bant kaymaya + başlık yükselmeye başlar
 
 // bantta 7 kopya, düz dizi
 const BAND = Array.from({ length: COPIES }, () => TITLES).flat();
 
 const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+const EASE = [0.22, 1, 0.36, 1] as const;
 
-/**
- * Video zamanından segment indeksi + segment içi ilerleme.
- * Kenarlar: [0, ...BOUNDS, dur] → segment i: [edges[i], edges[i+1]).
- */
+/** Video zamanından segment indeksi + segment bitişi + segment süresi. */
 function segAt(ct: number, dur: number): { i: number; segEnd: number; segDur: number } {
   const edges = [0, ...BOUNDS, dur];
   let i = BOUNDS.length;
@@ -36,9 +34,9 @@ function segAt(ct: number, dur: number): { i: number; segEnd: number; segDur: nu
 }
 
 export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string; fallbackDur?: number }) {
-  const [seg, setSeg] = useState(0);
-  const [liftY, setLiftY] = useState(220); // başlığın bant hizasından merkeze kat ettiği dikey mesafe (px)
-  const segRef = useRef(-1);
+  const [featured, setFeatured] = useState(0); // o an yukarıda gösterilen başlık indeksi
+  const [liftY, setLiftY] = useState(220);     // başlığın bant hizasından merkeze kat ettiği dikey mesafe (px)
+  const featRef = useRef(-1);
   const reduce = useReducedMotion();
   const reduceRef = useRef(false);
 
@@ -86,23 +84,26 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
       const dur = vid && isFinite(vid.duration) && vid.duration > 0 ? vid.duration : fallbackDur;
       const ct = vid && isFinite(vid.currentTime) ? vid.currentTime % dur : (performance.now() / 1000) % dur;
       const { i, segEnd, segDur } = segAt(ct, dur);
-      if (i !== segRef.current) { segRef.current = i; setSeg(i); }
+      const lead = Math.min(SCROLL_LEAD, segDur * 0.5);
+      const tLeft = segEnd - ct;
+      const scrolling = !reduceRef.current && tLeft < lead;
 
+      // Öne çıkan başlık: kayma başlayınca (segment değişiminden ~lead sn önce)
+      // sıradakine geçer → yükselme ile kayma eşzamanlı olur.
+      const featuredIdx = scrolling ? (i + 1) % SEQ : i;
+      if (featuredIdx !== featRef.current) { featRef.current = featuredIdx; setFeatured(featuredIdx); }
+
+      // Bant: aktif başlık ortada park; son `lead` sn'de sıradakine yumuşak kayar.
       const off = offsetsRef.current;
       const track = trackRef.current;
-      const base = SEQ * CENTER_COPY; // ortadaki kopyanın ilk öğesi
+      const base = SEQ * CENTER_COPY;
       if (track && off.length > base + i + 1) {
-        const cFrom = off[base + i];       // aktif başlık merkezde
-        const cTo = off[base + i + 1];     // sıradaki başlık merkezde
+        const cFrom = off[base + i];
+        const cTo = off[base + i + 1];
         let target = cFrom;
-        if (!reduceRef.current) {
-          const lead = Math.min(SCROLL_LEAD, segDur * 0.5);
-          const tLeft = segEnd - ct;
-          if (tLeft < lead) {
-            // segment sonuna SCROLL_LEAD sn kala: sıradakine yumuşakça kay
-            const q = 1 - tLeft / lead;
-            target = cFrom + (cTo - cFrom) * easeInOut(q);
-          }
+        if (scrolling) {
+          const q = 1 - tLeft / lead;
+          target = cFrom + (cTo - cFrom) * easeInOut(q);
         }
         track.style.transform = `translate3d(${vpCenterRef.current - target}px,0,0)`;
       }
@@ -115,19 +116,27 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
 
   return (
     <div className="absolute inset-0 z-10 pointer-events-none">
-      {/* öne çıkan başlık — bant ortasından kopup merkeze yükselir */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full px-6 flex justify-center">
-        <AnimatePresence mode="wait">
+      {/* öne çıkan başlık — bant kayarken eşzamanlı olarak aşağıdan kopup büyüyerek yükselir.
+          grid-overlap: giriş ve çıkış aynı hücrede üst üste, eşzamanlı animasyon. */}
+      <div className="absolute inset-0 grid place-items-center px-6">
+        <AnimatePresence>
           <motion.h1
-            key={seg}
-            className="text-white font-extrabold tracking-tight leading-[1.05] text-center whitespace-nowrap text-3xl sm:text-5xl lg:text-7xl"
+            key={featured}
+            className="[grid-area:1/1] text-white font-extrabold tracking-tight leading-[1.05] text-center whitespace-nowrap text-3xl sm:text-5xl lg:text-7xl"
             style={disp}
             initial={reduce ? { opacity: 0 } : { opacity: 0, y: liftY, scale: 0.36, filter: "blur(4px)" }}
-            animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-            exit={reduce ? { opacity: 0 } : { opacity: 0, y: liftY, scale: 0.36, filter: "blur(4px)" }}
-            transition={{ duration: reduce ? 0.3 : 0.6, ease: [0.22, 1, 0.36, 1] }}
+            animate={
+              reduce
+                ? { opacity: 1, transition: { duration: 0.3 } }
+                : { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { duration: 1.3, ease: EASE } }
+            }
+            exit={
+              reduce
+                ? { opacity: 0, transition: { duration: 0.3 } }
+                : { opacity: 0, y: liftY, scale: 0.36, filter: "blur(4px)", transition: { duration: 0.5, ease: EASE } }
+            }
           >
-            {TITLES[seg]}
+            {TITLES[featured]}
           </motion.h1>
         </AnimatePresence>
       </div>
@@ -136,7 +145,7 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
       <div ref={vpRef} className="absolute bottom-24 left-0 right-0 overflow-hidden">
         <div ref={trackRef} className="relative flex w-max will-change-transform">
           {BAND.map((t, idx) => {
-            const active = idx % SEQ === seg;
+            const active = idx % SEQ === featured;
             return (
               <span
                 key={idx}
