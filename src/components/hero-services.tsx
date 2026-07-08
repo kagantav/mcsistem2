@@ -14,14 +14,23 @@ const TITLES = [
   "Havaalanı Sistemleri",
 ];
 
-const segFor = (ct: number) => {
-  for (let i = 0; i < BOUNDS.length; i++) if (ct < BOUNDS[i]) return i;
-  return BOUNDS.length;
-};
+/**
+ * Video zamanından segment indeksi + segment içi ilerleme.
+ * Kenarlar: [0, ...BOUNDS, dur] → segment i: [edges[i], edges[i+1]).
+ */
+function segAt(ct: number, dur: number): { i: number; p: number } {
+  const edges = [0, ...BOUNDS, dur];
+  let i = BOUNDS.length;
+  for (let k = 0; k < BOUNDS.length; k++) { if (ct < BOUNDS[k]) { i = k; break; } }
+  const span = edges[i + 1] - edges[i];
+  const p = span > 0 ? Math.min(1, Math.max(0, (ct - edges[i]) / span)) : 0;
+  return { i, p };
+}
 
 export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string; fallbackDur?: number }) {
   const [seg, setSeg] = useState(0);
   const segRef = useRef(-1);
+  const progressRef = useRef(0); // segment içi ilerleme, imperatif okuma için
 
   useEffect(() => {
     const vid = document.getElementById(videoId) as HTMLVideoElement | null;
@@ -29,7 +38,8 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
     const tick = () => {
       const dur = vid && isFinite(vid.duration) && vid.duration > 0 ? vid.duration : fallbackDur;
       const ct = vid && isFinite(vid.currentTime) ? vid.currentTime % dur : (performance.now() / 1000) % dur;
-      const i = segFor(ct);
+      const { i, p } = segAt(ct, dur);
+      progressRef.current = p;
       if (i !== segRef.current) { segRef.current = i; setSeg(i); }
       raf = requestAnimationFrame(tick);
     };
