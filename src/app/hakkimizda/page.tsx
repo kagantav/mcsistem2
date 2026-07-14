@@ -62,11 +62,11 @@ export default function Hakkimizda() {
       {/* VİZYON & MİSYON */}
       <MissionVision />
 
-      {/* KURUMSAL DEĞERLER — görsel arka planlı kartlar */}
-      <section className="py-16 lg:py-24 bg-white">
+      {/* KURUMSAL DEĞERLER — editoryal slider */}
+      <section className="py-16 lg:py-28 bg-[linear-gradient(120deg,#ffffff_0%,#ffffff_52%,#eef4fa_100%)]">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
-            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-center mb-12 lg:mb-16" style={{ ...disp, color: NAVY }}>
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-12 lg:mb-16" style={{ ...disp, color: NAVY }}>
               Kurumsal Değerlerimiz
             </h2>
           </Reveal>
@@ -89,9 +89,6 @@ export default function Hakkimizda() {
         <div className="relative max-w-3xl mx-auto px-6">
           <Reveal delay={0.1}>
             <Accordion items={managementSystem.groups} />
-          </Reveal>
-          <Reveal delay={0.15}>
-            <p className="mt-10 text-center text-white/70 text-base md:text-lg leading-relaxed">“{managementSystem.closing}”</p>
           </Reveal>
         </div>
 

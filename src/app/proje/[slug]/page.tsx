@@ -30,38 +30,36 @@ export default async function ProjeDetay({ params }: { params: Promise<{ slug: s
 
       {/* İÇERİK */}
       <section className="py-16 lg:py-24 bg-white text-[#10243a]">
-        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-[1fr_320px] gap-12 lg:gap-16 items-start">
-          <div>
-            <ParallaxImage src={p.image} alt={p.title} className="rounded-3xl shadow-2xl aspect-[16/9] mb-10" amount={10} />
-            <h2 className="text-2xl md:text-3xl font-extrabold mb-5" style={{ ...disp, color: NAVY }}>Proje Hakkında</h2>
-            <p className="text-[#5a6b82] text-base md:text-[17px] leading-relaxed mb-10">{p.longDesc}</p>
+        <div className="max-w-5xl mx-auto px-6">
+          {/* büyük proje görseli */}
+          <ParallaxImage src={p.image} alt={p.title} className="rounded-3xl shadow-2xl aspect-[16/9] mb-8" amount={10} />
 
-            <h2 className="text-2xl md:text-3xl font-extrabold mb-6" style={{ ...disp, color: NAVY }}>Proje Kapsamı</h2>
-            <div className="grid sm:grid-cols-2 gap-3">
-              {p.scope.map((s) => (
-                <div key={s} className="flex items-start gap-3 p-4 rounded-2xl border border-black/[0.07] bg-[#f6f9fb]">
-                  <span className="w-2 h-2 rounded-full shrink-0 mt-2" style={{ background: BLUE }} />
-                  <span className="text-[#3a4d63] text-sm font-medium">{s}</span>
-                </div>
-              ))}
-            </div>
+          {/* proje bilgileri — görselin altında */}
+          <div className="flex flex-wrap gap-x-12 gap-y-5 py-6 border-y border-black/[0.08] mb-12">
+            {([["Konum", p.location], ["Durum", ongoing ? "Devam Ediyor" : "Tamamlandı"], ...(ongoing ? [] : [["Yıl", String(p.year)]])] as [string, string][]).map(([k, v]) => (
+              <div key={k}>
+                <dt className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#7587a0] mb-1.5">{k}</dt>
+                <dd className="text-lg font-extrabold" style={{ ...disp, color: NAVY }}>{v}</dd>
+              </div>
+            ))}
           </div>
 
-          {/* meta panel */}
-          <aside className="lg:sticky lg:top-28 rounded-3xl border border-black/[0.07] p-7 bg-[#f6f9fb]">
-            <h3 className="font-bold mb-5" style={{ ...disp, color: NAVY }}>Proje Bilgileri</h3>
-            <dl className="space-y-4 text-sm">
-              {[["Konum", `${p.location}`], ["Ülke", p.country], ["Kategori", p.category], ["Yıl", String(p.year)], ["Durum", ongoing ? "Devam Ediyor" : "Tamamlandı"]].map(([k, v]) => (
-                <div key={k} className="flex justify-between gap-4 border-b border-black/5 pb-3 last:border-0">
-                  <dt className="text-[#7587a0]">{k}</dt>
-                  <dd className="font-semibold text-right" style={{ color: NAVY }}>{v}</dd>
-                </div>
-              ))}
-            </dl>
-            <Link href="/iletisim" className="mt-6 inline-flex w-full items-center justify-center gap-2 font-semibold px-6 py-3.5 rounded-full text-white text-sm" style={{ background: NAVY }}>
-              Benzer Proje İçin İletişim →
-            </Link>
-          </aside>
+          <h2 className="text-2xl md:text-3xl font-extrabold mb-5" style={{ ...disp, color: NAVY }}>Proje Hakkında</h2>
+          <p className="text-[#5a6b82] text-base md:text-[17px] leading-relaxed mb-12">{p.longDesc}</p>
+
+          <h2 className="text-2xl md:text-3xl font-extrabold mb-6" style={{ ...disp, color: NAVY }}>Proje Kapsamı</h2>
+          <div className="grid sm:grid-cols-2 gap-3 mb-12">
+            {p.scope.map((s) => (
+              <div key={s} className="flex items-start gap-3 p-4 rounded-2xl border border-black/[0.07] bg-[#f6f9fb]">
+                <span className="w-2 h-2 rounded-full shrink-0 mt-2" style={{ background: BLUE }} />
+                <span className="text-[#3a4d63] text-sm font-medium">{s}</span>
+              </div>
+            ))}
+          </div>
+
+          <Link href="/iletisim" className="inline-flex items-center justify-center gap-2 font-semibold px-7 py-3.5 rounded-full text-white text-sm transition-colors hover:bg-[#2f6fe0]" style={{ background: NAVY }}>
+            Benzer Proje İçin İletişim <span aria-hidden>→</span>
+          </Link>
         </div>
       </section>
 

@@ -140,7 +140,7 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
             }
           >
             <h1
-              className="text-white font-extrabold tracking-tight leading-[1.05] text-center whitespace-nowrap text-3xl sm:text-5xl lg:text-7xl"
+              className="text-white font-extrabold tracking-tight leading-[1.05] text-center whitespace-nowrap text-2xl sm:text-4xl lg:text-6xl"
               style={disp}
             >
               {SEGMENTS[featured].title}
@@ -150,7 +150,7 @@ export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string
               {SEGMENTS[featured].items.map((it) => (
                 <span
                   key={it}
-                  className="inline-flex items-center gap-2 text-white/80 font-medium tracking-tight text-sm sm:text-base lg:text-xl"
+                  className="inline-flex items-center gap-2 text-white/80 font-medium tracking-tight text-xs sm:text-sm lg:text-lg"
                 >
                   <span className="text-[#7fb0ff] text-xs sm:text-sm">➢</span>
                   {it}

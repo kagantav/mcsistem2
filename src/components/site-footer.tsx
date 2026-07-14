@@ -57,9 +57,9 @@ export function SiteFooter() {
             </ul>
           </div>
 
-          {/* kurumsal */}
+          {/* hızlı erişim */}
           <div>
-            <Heading>Kurumsal</Heading>
+            <Heading>Hızlı Erişim</Heading>
             <ul className="space-y-3">
               {KURUMSAL.map(([label, href]) => (
                 <li key={label}>
@@ -89,6 +89,11 @@ export function SiteFooter() {
                 <a href={`mailto:${company.email}`} className="hover:text-white transition-colors">{company.email}</a>
               </li>
             </ul>
+            <Link href="/kariyer" className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-white/90 hover:text-white transition-colors group">
+              <svg className="w-4 h-4" style={{ color: BLUE }} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+              Kariyer
+              <span className="transition-transform group-hover:translate-x-0.5" aria-hidden>→</span>
+            </Link>
           </div>
         </div>
 

@@ -92,20 +92,24 @@ export const managementSystem = {
         "Stratejilerine bağlı kurumsal yönetim anlayışıyla liderlik kültürünü geliştirmeyi ve İSG performansını artırmak için yeterli kaynak ayırmayı.",
       ],
     },
+    {
+      title: "Bütünlük ve Taahhüt",
+      items: [
+        "Kalite, Çevre ve İSG sistemlerini bir bütünlük içinde yönetmeyi, sistem etkinliğini düzenli olarak izlemeyi ve topluma örnek bir kuruluş olmayı İSG, Çevre ve Kalite Politikası olarak taahhüt etmektedir.",
+      ],
+    },
   ],
-  closing:
-    "Kalite, Çevre ve İSG sistemlerini bir bütünlük içinde yönetmeyi, sistem etkinliğini düzenli olarak izlemeyi ve topluma örnek bir kuruluş olmayı İSG, Çevre ve Kalite Politikası olarak taahhüt etmektedir.",
 };
 
-export type Certificate = { code: string; label: string; file: string };
+export type Certificate = { code: string; label: string; docs: { lang: string; file: string }[] };
 export const certificates: Certificate[] = [
-  { code: "ISO 9001", label: "Kalite Yönetim Sistemi", file: "iso-9001.pdf" },
-  { code: "ISO 14001", label: "Çevre Yönetim Sistemi", file: "iso-14001.pdf" },
-  { code: "ISO 45001", label: "İş Sağlığı ve Güvenliği Yönetim Sistemi", file: "iso-45001.pdf" },
-  { code: "ISO 27001", label: "Bilgi Güvenliği Yönetim Sistemi", file: "iso-27001.pdf" },
+  { code: "ISO 9001", label: "Kalite Yönetim Sistemi", docs: [{ lang: "Türkçe", file: "iso-9001.pdf" }] },
+  { code: "ISO 14001", label: "Çevre Yönetim Sistemi", docs: [{ lang: "Türkçe", file: "iso-14001.pdf" }] },
+  { code: "ISO 45001", label: "İş Sağlığı ve Güvenliği Yönetim Sistemi", docs: [{ lang: "Türkçe", file: "iso-45001.pdf" }] },
+  { code: "ISO 27001", label: "Bilgi Güvenliği Yönetim Sistemi", docs: [{ lang: "Türkçe", file: "iso-27001-tr.pdf" }, { lang: "İngilizce", file: "iso-27001-en.pdf" }] },
 ];
 
-export type Capability = { title: string; desc: string };
+export type Capability = { title: string; desc: string; image?: string };
 
 export type Service = {
   key: string;
@@ -141,10 +145,10 @@ export const services: Service[] = [
       { title: "Akıllı Raporlama", desc: "Karar destek verisi, KPI ve trend analiz panelleri." },
     ],
     capabilities: [
-      { title: "Trafik İzleme ve Yönetim Sistemleri", desc: "Sensör, kamera ve algılayıcı ağlarıyla trafik akışını gerçek zamanlı izliyor; topladığımız veriyi kontrol merkezinde işleyerek olayları anında tespit ediyor, tıkanıklıkları ve müdahale süreçlerini merkezden yönetiyoruz. Tasarımdan devreye almaya kadar tüm süreci anahtar teslim yürütüyoruz." },
-      { title: "Tünel Elektromekanik Sistemleri", desc: "Tünellerde havalandırma, aydınlatma, yangın algılama, CCTV ve anons sistemlerini tek bir SCADA mimarisi altında entegre ediyoruz. Sürücü güvenliğini önceleyen çözümleri uluslararası standartlara uygun olarak kuruyor ve devreye alıyoruz." },
-      { title: "Şehiriçi Trafik Yönetim Sistemleri", desc: "Adaptif sinyalizasyon ve akıllı kavşak çözümleriyle şehir içi trafik akışını yoğunluğa göre gerçek zamanlı optimize ediyoruz. Kavşak koordinasyonu ve öncelikli geçiş uygulamalarıyla seyahat sürelerini ve bekleme kuyruklarını azaltıyoruz." },
-      { title: "Ücret Toplama Sistemleri", desc: "Otoyol, köprü ve geçişlerde durmadan ödemeye imkân tanıyan elektronik ücret toplama (ETC/HGS) altyapısını kuruyoruz. Plaka tanıma, arka ofis ve raporlama sistemleriyle geçişlerin doğru, hızlı ve şeffaf biçimde ücretlendirilmesini sağlıyoruz." },
+      { title: "Trafik İzleme ve Yönetim Sistemleri", desc: "Sensör ve kameralarla trafik akışını gerçek zamanlı izleyip merkezden yönetiyoruz.", image: "/hizmet/trafik-izleme2.png" },
+      { title: "Tünel Elektromekanik Sistemleri", desc: "Tünellerde havalandırma, aydınlatma, yangın algılama ve kontrol sistemlerini kuruyoruz.", image: "/hizmet/tunel-elektromekanik.png" },
+      { title: "Şehiriçi Trafik Yönetim Sistemleri", desc: "Sinyalizasyon ve akıllı kavşak çözümleriyle şehir içi trafik akışını optimize ediyoruz.", image: "/hizmet/sehirici-trafik.png" },
+      { title: "Ücret Toplama Sistemleri", desc: "Otoyol ve geçişlerde otomatik (elektronik) ücret toplama altyapısı sağlıyoruz.", image: "/hizmet/ucret-toplama.png" },
     ],
   },
   {
@@ -163,9 +167,9 @@ export const services: Service[] = [
       { title: "Anahtar Teslim", desc: "Tasarımdan devreye almaya tüm aşamaları tek noktadan yönetiriz." },
     ],
     capabilities: [
-      { title: "Sinyalizasyon Sistemleri", desc: "Raylı hatlarda güvenli ve kesintisiz seyahat için sinyalizasyon altyapısını EN 50126/50128/50129 standartlarına uygun olarak kuruyoruz. Enterlok, hat blok ve tren kontrol sistemleriyle sefer güvenliğini ve hat kapasitesini en üst düzeye çıkarıyoruz." },
-      { title: "Telekomünikasyon Sistemleri", desc: "Sesli haberleşme, yolcu anons/bilgilendirme ve veri iletişimini tek bir omurga üzerinde toplayan entegre telekomünikasyon çözümleri sunuyoruz. Fiber optik ağ, telsiz ve CCTV sistemlerini kontrol merkezleriyle uçtan uca birbirine bağlıyoruz." },
-      { title: "Elektrifikasyon Sistemleri", desc: "Katener, trafo merkezleri ve enerji besleme sistemleriyle hatların elektrifikasyonunu uçtan uca gerçekleştiriyoruz. SCADA tabanlı uzaktan izleme ve koruma altyapısıyla kesintisiz ve güvenli enerji beslemesini güvence altına alıyoruz." },
+      { title: "Sinyalizasyon Sistemleri", desc: "Raylı hatlarda güvenli ve kesintisiz seyahat için sinyalizasyon altyapısı kuruyoruz.", image: "/hizmet/sinyalizasyon.png" },
+      { title: "Telekomünikasyon Sistemleri", desc: "Haberleşme, anons ve veri iletişimi için entegre telekomünikasyon çözümleri sunuyoruz.", image: "/hizmet/telekomunikasyon.png" },
+      { title: "Elektrifikasyon Sistemleri", desc: "Katener ve enerji besleme sistemleriyle hatların elektrifikasyonunu gerçekleştiriyoruz.", image: "/hizmet/elektrifikasyon.png" },
     ],
   },
   {
@@ -184,8 +188,8 @@ export const services: Service[] = [
       { title: "Operasyonel Destek", desc: "Devreye alım sonrası 7/24 teknik destek ve bakım." },
     ],
     capabilities: [
-      { title: "Elektromekanik ve SCADA Sistemleri", desc: "İstasyon ve hat boyundaki havalandırma, enerji, aydınlatma ve yangın sistemlerini tek bir SCADA mimarisi altında merkezden izleyip yönetiyoruz. 17'den fazla kritik alt sistemi entegre ederek sürücüsüz işletmeye (GoA4) uygun, kesintisiz operasyon sağlıyoruz." },
-      { title: "Sinyalizasyon Sistemleri", desc: "Metro hatlarında yüksek frekanslı ve güvenli sefer için CBTC tabanlı sinyalizasyon sistemleri kuruyoruz. Otomatik tren kontrolü ve koruma fonksiyonlarıyla sefer aralıklarını kısaltıp hat kapasitesini artırıyor, güvenliği fail-safe tasarımla güvence altına alıyoruz." },
+      { title: "Elektromekanik ve SCADA Sistemleri", desc: "İstasyon ve hat boyu elektromekanik sistemleri SCADA ile merkezden izleyip yönetiyoruz.", image: "/hizmet/scada.png" },
+      { title: "Sinyalizasyon Sistemleri", desc: "Metro hatlarında yüksek frekanslı ve güvenli sefer için sinyalizasyon sistemleri kuruyoruz.", image: "/hizmet/sinyalizasyon.png" },
     ],
   },
   {
@@ -204,10 +208,10 @@ export const services: Service[] = [
       { title: "Yolcu Konforu", desc: "Bilgilendirme, iklimlendirme ve yönlendirme entegrasyonu." },
     ],
     capabilities: [
-      { title: "Radar ve Seyrüsefer Sistemleri", desc: "Hava trafiğinin güvenli yönetimi için radar ve seyrüsefer yardımcı (NAVAID) sistemlerini ICAO standartlarına uygun olarak sağlıyoruz. Kalkış, yaklaşma ve iniş fazlarında hassas yönlendirme için altyapıyı kurup devreye alıyoruz." },
-      { title: "Pist Aydınlatma", desc: "Pist, taksi yolu ve apron aydınlatma (AGL) sistemlerini ICAO standartlarında kuruyor ve devreye alıyoruz. Sabit akım regülatörleri ve merkezi izleme/kontrol sistemleriyle her koşulda kesintisiz ve güvenli iniş-kalkış operasyonunu destekliyoruz." },
-      { title: "Uçak Park Ettirme Sistemi", desc: "Uçakların köprüye hassas ve güvenli yanaşması için görsel yanaşma yönlendirme (A-VDGS) sistemleri sağlıyoruz. Lazer tabanlı konumlandırma ve pilot bilgilendirme ekranlarıyla park manevralarını hızlandırıp apron güvenliğini artırıyoruz." },
-      { title: "Havaalanı Bilgi Sistemi", desc: "Uçuş bilgi ekranları (FIDS), anons ve yolcu bilgilendirme sistemlerini terminal genelinde entegre ediyoruz. Uçuş, bagaj ve kapı verilerini gerçek zamanlı işleyerek yolcu yönlendirmesini ve operasyonel koordinasyonu tek merkezden yönetiyoruz." },
+      { title: "Radar ve Seyrüsefer Sistemleri", desc: "Hava trafiğinin güvenli yönetimi için radar ve seyrüsefer yardımcı sistemleri sağlıyoruz.", image: "/hizmet/radar-ve-seyrusefer.png" },
+      { title: "Pist Aydınlatma", desc: "Pist, taksi yolu ve apron aydınlatma (AGL) sistemlerini kuruyor ve devreye alıyoruz.", image: "/hizmet/pist-aydinlatma.png" },
+      { title: "Uçak Park Ettirme Sistemi", desc: "Uçakların hassas ve güvenli yanaşması için görsel yanaşma yönlendirme sistemleri sağlıyoruz.", image: "/hizmet/ucak-park.png" },
+      { title: "Havaalanı Bilgi Sistemi", desc: "Uçuş bilgi ekranları (FIDS) ve yolcu bilgilendirme sistemlerini entegre ediyoruz.", image: "/hizmet/havaalani-bilgi.png" },
     ],
   },
   {
@@ -226,10 +230,10 @@ export const services: Service[] = [
       { title: "Anahtar Teslim", desc: "Etüt, tasarım, kurulum ve devreye alma tek bir elden." },
     ],
     capabilities: [
-      { title: "Yeraltı Altyapı Sistemleri", desc: "Enerji dağıtım galerileri ve teknik tesis bağlantılarını TS EN ve IEC standartlarına uygun olarak projelendiriyoruz. Etütten devreye almaya kadar tüm süreci anahtar teslim yürütüyor, uzun ömürlü ve düşük bakım maliyetli altyapı kuruyoruz." },
-      { title: "Kablo Galerileri", desc: "Beton/PVC kablo galerilerinin yapımını; koruma, drenaj ve havalandırma altyapısıyla birlikte gerçekleştiriyoruz. İhtiyaca göre büyütülebilen modüler tasarımlarla gelecekteki kablo genişlemelerine uygun, güvenli bir yerleşim sağlıyoruz." },
-      { title: "Fiber Optik Şebeke", desc: "Backbone fiber omurgasının çekimini, ek (splice) ve terminasyon işlerini uçtan uca yürütüyoruz. OTDR ölçüm ve testleriyle her hattın performansını doğrulayıp yüksek kapasiteli, kesintisiz veri iletişimini güvence altına alıyoruz." },
-      { title: "Devreye Alma & Test", desc: "Hi-Pot, megger ve OTDR testleriyle tüm altyapının elektriksel ve optik bütünlüğünü saha kabul süreçlerinde doğruluyoruz. Test sonuçlarını raporlayıp sistemi devreye alarak işletmeye güvenli ve belgelenmiş bir teslim gerçekleştiriyoruz." },
+      { title: "Yeraltı Altyapı Sistemleri", desc: "Enerji dağıtım galerileri ve teknik tesis bağlantılarını uluslararası standartlarda projelendiriyoruz.", image: "/hizmet/yeralti-yapi.png" },
+      { title: "Kablo Galerileri", desc: "Beton/PVC galeri yapımı, koruma ve havalandırma altyapısını kuruyoruz.", image: "/hizmet/kablo-galerileri.png" },
+      { title: "Fiber Optik Şebeke", desc: "Backbone fiber omurgası, ek (splice) ve terminasyon işlerini yürütüyoruz.", image: "/hizmet/fiber-optik.png" },
+      { title: "Devreye Alma & Test", desc: "Hi-Pot, megger ve OTDR testleriyle altyapıyı devreye alıp raporluyoruz.", image: "/hizmet/devreye-alma.png" },
     ],
   },
 ];
@@ -364,35 +368,39 @@ export const projects: Project[] = [
 ];
 
 export const references: { file: string; name: string }[] = [
+  // Bakanlıklar (en üstte)
+  { file: "referans-19.png", name: "T.C. Ulaştırma ve Altyapı Bakanlığı" },
+  { file: "referans-9.png", name: "Irak Ulaştırma Bakanlığı" },
+  { file: "referans-20.png", name: "Umman Ulaştırma, Haberleşme ve Bilgi Teknolojileri Bakanlığı" },
+  { file: "referans-3.png", name: "Azerbaycan Cumhuriyeti Dijital Kalkınma ve Ulaştırma Bakanlığı" },
+  { file: "referans-17.png", name: "Suudi Arabistan Ulaştırma ve Lojistik Hizmetleri Bakanlığı" },
+  { file: "referans-cezayir.svg", name: "Cezayir Ulaştırma Bakanlığı" },
+  // Kamu kurumları / genel müdürlükler
   { file: "referans-18.png", name: "Türkiye Cumhuriyeti Devlet Demiryolları" },
   { file: "referans-10.png", name: "Karayolları Genel Müdürlüğü" },
-  { file: "referans-1.png", name: "Altyapı Yatırımları Genel Müdürlüğü" },
+  { file: "referans-aygm.jpg", name: "Altyapı Yatırımları Genel Müdürlüğü" },
   { file: "referans-5.png", name: "Devlet Hava Meydanları İşletmesi Genel Müdürlüğü" },
-  { file: "referans-19.png", name: "T.C. Ulaştırma ve Altyapı Bakanlığı" },
-  { file: "referans-20.png", name: "Umman Ulaştırma, Haberleşme ve Bilgi Teknolojileri Bakanlığı" },
-  { file: "referans-cezayir.svg", name: "Cezayir Ulaştırma Bakanlığı" },
-  { file: "referans-3.png", name: "Azerbaycan Cumhuriyeti Dijital Kalkınma ve Ulaştırma Bakanlığı" },
-  { file: "referans-9.png", name: "Irak Ulaştırma Bakanlığı" },
-  { file: "referans-17.png", name: "Suudi Arabistan Ulaştırma ve Lojistik Hizmetleri Bakanlığı" },
   { file: "referans-12.png", name: "Kuwait Directorate General of Civil Aviation (DGCA)" },
-  { file: "referans-kalyon.svg", name: "Kalyon Holding" },
+  // Büyük kurumsal şirketler / holdingler (büyükten küçüğe)
+  { file: "referans-2.png", name: "ASELSAN Elektronik Sanayi ve Ticaret A.Ş." },
+  { file: "referans-16.png", name: "SOCAR" },
+  { file: "kalyon.png", name: "Kalyon Holding" },
   { file: "referans-4.png", name: "Cengiz İnşaat Sanayi ve Ticaret A.Ş." },
   { file: "referans-13.png", name: "Limak İnşaat Sanayi ve Ticaret A.Ş." },
+  { file: "referans-6.png", name: "Doğuş İnşaat ve Ticaret A.Ş." },
   { file: "referans-11.png", name: "Kolin İnşaat Turizm Sanayi ve Ticaret A.Ş." },
+  { file: "referans-14.png", name: "Nurol İnşaat ve Ticaret A.Ş." },
+  { file: "referans-8.png", name: "IC İçtaş İnşaat Sanayi ve Ticaret A.Ş." },
+  // Diğer firmalar
   { file: "referans-15.png", name: "Özgün İnşaat" },
   { file: "referans-7.png", name: "Eze İnşaat A.Ş." },
-  { file: "referans-14.png", name: "Nurol İnşaat ve Ticaret A.Ş." },
-  { file: "referans-2.png", name: "ASELSAN Elektronik Sanayi ve Ticaret A.Ş." },
-  { file: "referans-6.png", name: "Doğuş İnşaat ve Ticaret A.Ş." },
-  { file: "referans-16.png", name: "SOCAR" },
-  { file: "referans-8.png", name: "IC İçtaş İnşaat Sanayi ve Ticaret A.Ş." },
 ];
 
 // Bloglar (mcsistem.com.tr içeriğinden) — şimdilik mock
 export type Blog = { title: string; date: string; category: string; image: string; excerpt: string };
 export const blogs: Blog[] = [
   {
-    title: "MC Sistem Tecrübesiyle Elektromekanik Sistemler",
+    title: "Anahtar Teslim Mühendislik: 25 Yıllık Yaklaşımımız",
     date: "22 Nisan 2026",
     category: "Kurumsal",
     image: "/company/sirket-clean.jpg",
@@ -412,13 +420,6 @@ export const blogs: Blog[] = [
     image: "/services/akilli-ulasim.webp",
     excerpt: "Yapay zeka destekli trafik yönetiminden 5G altyapısına, V2X iletişiminden enerji verimli sensör ağlarına — akıllı ulaşım sistemlerinde bizi bekleyen teknolojik dönüşümleri analiz ettik.",
   },
-  {
-    title: "İstanbul Havalimanı'nda 5. Faz İşletme Projesi",
-    date: "4 Şubat 2026",
-    category: "Proje Güncellemesi",
-    image: "/services/akilli-ulasim.webp",
-    excerpt: "Yapay zeka destekli trafik yönetiminden 5G altyapısına, V2X iletişiminden enerji verimli sensör ağlarına — akıllı ulaşım sistemlerinde bizi bekleyen teknolojik dönüşümleri analiz ettik.",
-  }
 ];
 
 // Banner daktilo metinleri

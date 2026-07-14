@@ -1,76 +1,112 @@
 "use client";
 
-import { motion } from "motion/react";
+import { useRef, useState } from "react";
 import { coreValues } from "@/lib/content";
 
 const disp = { fontFamily: "var(--f-display)" };
+const NAVY = "#002b4c";
+const BLUE = "#2f6fe0";
 
-function Card({ v, i, wide }: { v: (typeof coreValues)[number]; i: number; wide?: boolean }) {
-  return (
-    <div className="group relative overflow-hidden rounded-[22px] w-full h-full">
-      <div className="absolute inset-0" style={{ backgroundImage: `linear-gradient(120deg, ${v.tint[0]}, ${v.tint[1]})` }} />
-      <div
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-[1100ms] ease-out group-hover:scale-[1.05]"
-        style={{ backgroundImage: `url(${v.image})` }}
-      />
-      <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, rgba(0,10,20,0.93) 0%, rgba(0,10,20,0.66) 40%, rgba(0,10,20,0.15) 68%, transparent 84%)" }} />
-      <div className={`absolute inset-0 flex flex-col justify-start pt-7 xl:pt-8 px-6 xl:px-7 pb-6 ${wide ? "max-w-[54%]" : "max-w-[72%]"}`}>
-        <span className="text-[11px] font-mono tracking-[0.32em] text-[#7fb0ff] mb-2.5">0{i + 1}</span>
-        <h3 className="text-xl xl:text-2xl font-extrabold tracking-tight leading-tight text-white mb-2.5" style={disp}>
-          {v.title}
-        </h3>
-        <p className="text-white/74 text-[12.5px] xl:text-[13px] leading-relaxed">{v.desc}</p>
-        <span className="mt-4 h-px w-10 bg-white/35 transition-all duration-500 group-hover:w-16 group-hover:bg-[#7fb0ff]" />
-      </div>
-      <div className="absolute inset-0 rounded-[22px] ring-1 ring-inset ring-white/0 group-hover:ring-[#2f6fe0]/40 transition duration-300" />
-    </div>
-  );
-}
-
+/**
+ * Kurumsal Değerler — deploy'daki Misyon/Vizyon yapısı: kutusuz, outline numara +
+ * lacivert başlık + metin, ortada dikey ayraç. Masaüstünde 2 kart görünür,
+ * kaydırınca 1 kart kayar.
+ */
 export function ValueCards() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [idx, setIdx] = useState(0);
+  const n = coreValues.length;
+  const maxIdx = Math.max(0, n - 2); // 2 kart görünür → son başlangıç konumu
+
+  const scrollToIdx = (i: number) => {
+    const el = ref.current;
+    if (!el) return;
+    const t = Math.max(0, Math.min(maxIdx, i));
+    const card = el.children[t] as HTMLElement | undefined;
+    if (card) el.scrollTo({ left: card.offsetLeft, behavior: "smooth" });
+  };
+
+  const onScroll = () => {
+    const el = ref.current;
+    if (!el) return;
+    let best = 0;
+    let bestD = Infinity;
+    Array.from(el.children).forEach((c, i) => {
+      const d = Math.abs((c as HTMLElement).offsetLeft - el.scrollLeft);
+      if (d < bestD) {
+        bestD = d;
+        best = i;
+      }
+    });
+    setIdx(Math.min(maxIdx, best));
+  };
+
   return (
-    <>
-      {/* ── MASAÜSTÜ: 3 üstte + 2 altta (tam genişlik) ── */}
-      <div className="hidden lg:flex flex-wrap gap-5">
-        {coreValues.map((v, i) => {
-          const wide = i >= 3;
-          return (
-            <motion.div
+    <div>
+      {/* slider görüş alanı — ortada sabit dikey ayraç (2'li görünümde tam merkez) */}
+      <div className="relative">
+        <span className="hidden sm:block absolute left-1/2 top-3 bottom-3 w-px bg-[#dbe3ef] pointer-events-none z-10" />
+
+        <div
+          ref={ref}
+          onScroll={onScroll}
+          className="flex overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {coreValues.map((v) => (
+            <div
               key={v.slug}
-              initial={{ opacity: 0, y: 26 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.55, delay: (i % 3) * 0.08, ease: [0.22, 1, 0.36, 1] }}
-              className={`${wide ? "w-[calc(50%-0.625rem)]" : "w-[calc(33.333%-0.834rem)]"} h-[16.5rem] xl:h-[17.5rem]`}
+              className="snap-start shrink-0 w-full sm:w-1/2 px-1 sm:px-8 lg:px-12 py-4"
             >
-              <Card v={v} i={i} wide={wide} />
-            </motion.div>
-          );
-        })}
+              <div className="flex items-center gap-4 mb-6 lg:mb-8">
+                <span className="block h-8 w-1 rounded-full" style={{ background: BLUE }} />
+                <h3
+                  className="text-2xl lg:text-3xl font-bold tracking-tight"
+                  style={{ ...disp, color: NAVY }}
+                >
+                  {v.title}
+                </h3>
+              </div>
+              <p className="text-[#1f4370] text-lg lg:text-xl font-semibold leading-relaxed max-w-md">
+                {v.desc}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* ── MOBİL: dikey kartlar ── */}
-      <div className="lg:hidden grid grid-cols-1 gap-4">
-        {coreValues.map((v, i) => (
-          <motion.div
-            key={v.slug}
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-            className="relative overflow-hidden rounded-[22px] aspect-[16/10]"
+      {/* kontroller */}
+      <div className="flex items-center justify-between mt-10 lg:mt-12">
+        <div className="flex items-center gap-2.5">
+          {Array.from({ length: maxIdx + 1 }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => scrollToIdx(i)}
+              aria-label={`${i + 1}. konum`}
+              className="h-1.5 rounded-full transition-all duration-300"
+              style={{ width: i === idx ? 30 : 9, background: i === idx ? BLUE : "rgba(0,43,76,0.18)" }}
+            />
+          ))}
+        </div>
+
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => scrollToIdx(idx - 1)}
+            disabled={idx === 0}
+            aria-label="Önceki"
+            className="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center text-[#002b4c] transition-all hover:border-[#2f6fe0] hover:text-[#2f6fe0] disabled:opacity-30 disabled:hover:border-black/10 disabled:hover:text-[#002b4c]"
           >
-            <div className="absolute inset-0" style={{ backgroundImage: `linear-gradient(120deg, ${v.tint[0]}, ${v.tint[1]})` }} />
-            <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${v.image})` }} />
-            <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, rgba(0,10,20,0.94) 0%, rgba(0,10,20,0.82) 52%, rgba(0,10,20,0.42) 100%)" }} />
-            <div className="absolute inset-0 flex flex-col justify-center p-7 max-w-[86%]">
-              <span className="text-[12px] font-mono tracking-[0.35em] text-[#7fb0ff] mb-2.5">0{i + 1}</span>
-              <h3 className="text-2xl font-extrabold tracking-tight leading-tight text-white mb-2.5" style={disp}>{v.title}</h3>
-              <p className="text-white/72 text-[13px] leading-relaxed">{v.desc}</p>
-            </div>
-          </motion.div>
-        ))}
+            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6" /></svg>
+          </button>
+          <button
+            onClick={() => scrollToIdx(idx + 1)}
+            disabled={idx === maxIdx}
+            aria-label="Sonraki"
+            className="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center text-[#002b4c] transition-all hover:border-[#2f6fe0] hover:text-[#2f6fe0] disabled:opacity-30 disabled:hover:border-black/10 disabled:hover:text-[#002b4c]"
+          >
+            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>
+          </button>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
