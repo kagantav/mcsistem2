@@ -160,7 +160,8 @@ function Hero() {
       <div className="absolute inset-0">
         <div className="mc-hero-vid w-full h-full" style={{ animationDelay: "1.35s" }}>
           <video id="mc-hero-video" autoPlay loop muted playsInline preload="auto" poster="/services/akilli-ulasim.webp" className="w-full h-full object-cover">
-            <source src="/hero/main-video.webm" type="video/webm" />
+            <source src="/hero/main-page-video.webm" type="video/webm" />
+            <source src="/hero/main-page-video.mp4" type="video/mp4" />
           </video>
         </div>
       </div>

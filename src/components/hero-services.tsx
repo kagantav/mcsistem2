@@ -5,14 +5,18 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 const disp = { fontFamily: "var(--f-display)" };
 
-/** Videodaki segment sınırları (saniye) — kare analizine göre */
-const BOUNDS = [13.75, 23.75, 29];
+/** Videodaki segment sınırları (saniye).
+ *  Başlık mekiği [BOUNDS-TRANS_W, BOUNDS-(TRANS_W-SHUTTLE)] aralığında oynar; ortası BOUNDS-0.7'dir.
+ *  Değişim tam siyah geçişte olsun diye: BOUNDS = siyah_ortası + 0.7
+ *  Ölçülen siyah aralıklar: 15.08-15.29 / 24.67-24.88 / 30.08-30.25 / 37.79-37.96 */
+const BOUNDS = [15.89, 25.47, 30.87, 38.58];
 type Segment = { title: string; items: string[] };
 const SEGMENTS: Segment[] = [
   { title: "Akıllı Ulaşım Sistemleri", items: ["Trafik İzleme ve Yönetim Sistemleri", "Tünel Elektromekanik Sistemleri", "Sinyalizasyon Sistemleri"] },
   { title: "Raylı Ulaşım Sistemleri", items: ["Sinyalizasyon Sistemleri", "Telekomünikasyon Sistemleri", "Elektrifikasyon Sistemleri"] },
   { title: "Metro Sistemleri", items: ["Elektromekanik Sistemler", "Kontrol ve Haberleşme Sistemleri", "Sinyalizasyon Sistemleri"] },
   { title: "Havaalanı Sistemleri", items: ["Radar ve Seyrüsefer Sistemleri", "Pist Aydınlatma Sistemleri", "Uçak Park Ettirme Sistemleri"] },
+  { title: "Yeraltı Tesisleri", items: ["Elektromekanik Sistemler", "Güvenlik ve İzleme Sistemleri", "Kontrol ve Haberleşme Sistemleri"] },
 ];
 const TITLES = SEGMENTS.map((s) => s.title);
 
@@ -38,7 +42,7 @@ function segAt(ct: number, dur: number): { i: number; segEnd: number; segDur: nu
   return { i, segEnd: edges[i + 1], segDur: edges[i + 1] - edges[i] };
 }
 
-export function HeroServices({ videoId, fallbackDur = 36.75 }: { videoId: string; fallbackDur?: number }) {
+export function HeroServices({ videoId, fallbackDur = 42.24 }: { videoId: string; fallbackDur?: number }) {
   const [featured, setFeatured] = useState(0); // o an yukarıda gösterilen başlık indeksi
   const [liftY, setLiftY] = useState(220);     // başlığın bant hizasından merkeze kat ettiği dikey mesafe (px)
   const featRef = useRef(-1);
