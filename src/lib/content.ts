@@ -33,6 +33,7 @@ export const about = {
     "SCADA Sistemleri",
     "Elektrifikasyon Sistemleri",
     "Akıllı Ulaşım Sistemleri (ITS)",
+    "Sistem Entegrasyonu",
   ],
   expertiseNote:
     "Bu sistemler; karayolu, tünel, demiryolu, metro, havaalanı ve yer altı tesisleri gibi kritik altyapı projelerinde anahtar teslim olarak uygulanmaktadır.",
@@ -49,8 +50,8 @@ export const coreValues: CoreValue[] = [
   { slug: "yenilikcilik", title: "Yenilikçilik", desc: "Teknolojik gelişmeleri yakından takip ederek, projelerde ve uygulama süreçlerinde katma değer oluşturan yenilikçi yaklaşımlar geliştirmektir.", image: "/kurumsal-degerler/yenilikcilik.webp", tint: ["#0a2a4a", "#123a63"] },
   { slug: "hiz", title: "Hız", desc: "Projelerin hızlı mobilizasyonunu sağlayarak planlama ve uygulama süreçlerini etkin şekilde yürütmektir.", image: "/kurumsal-degerler/hiz.webp", tint: ["#0d2f52", "#1c4f8a"] },
   { slug: "surekli-gelisim", title: "Sürekli Gelişim", desc: "Gelişimi sürekli ölçerek iyileştirmeyi esas almak ve belirlenen hedeflere ulaşmaktır.", image: "/kurumsal-degerler/surekli-gelisim.webp", tint: ["#08243f", "#0f3a66"] },
-  { slug: "isg", title: "İş Sağlığı ve Güvenliği", desc: "İş sağlığını tüm faaliyetlerin ayrılmaz parçası görmek ve \"Sıfır Kaza\" hedefiyle güvenli çalışma ortamları oluşturmaktır.", image: "/kurumsal-degerler/is-guvenligi.webp", tint: ["#0a2c4d", "#17457a"] },
-  { slug: "cevre", title: "Çevre Duyarlılığı", desc: "Çevre dostu yaklaşımı benimseyerek doğal kaynakları verimli kullanmak ve çevresel etkileri en aza indirmektir.", image: "/kurumsal-degerler/cevre-duyarliligi.webp", tint: ["#0b2e40", "#12506b"] },
+  { slug: "isg", title: "İş Sağlığı ve Güvenliği", desc: "İş sağlığı ve güvenliğini tüm faaliyetlerin ayrılmaz bir parçası olarak görmek, güvenli çalışma ortamları oluşturmak ve \"Sıfır Kaza\" hedefi doğrultusunda hareket etmektir.", image: "/kurumsal-degerler/is-guvenligi.webp", tint: ["#0a2c4d", "#17457a"] },
+  { slug: "cevre", title: "Çevre Duyarlılığı", desc: "Gelecek nesillere daha yaşanabilir bir çevre bırakmak amacıyla, tüm faaliyetlerde çevre dostu bir yaklaşımı benimseyerek doğal kaynakların verimli kullanılmasını ve çevresel etkilerin en aza indirilmesini sağlamaktır.", image: "/kurumsal-degerler/cevre-duyarliligi.webp", tint: ["#0b2e40", "#12506b"] },
 ];
 
 export const managementSystem = {
@@ -60,53 +61,53 @@ export const managementSystem = {
     {
       title: "Müşteri Odaklılık ve Kalite Anlayışı",
       items: [
-        "Gelişen teknolojileri ve sektördeki güncel gelişmeleri yakından takip ederek müşteri beklentilerini aşan üretim ve hizmet gerçekleştirmeyi,",
-        "En uygun, en doğru ve en ekonomik çözümleri en hızlı şekilde üreterek uygunsuzlukların önüne geçmeyi ve müşteri ihtiyaçlarını en üst seviyede karşılayan güvenilir bir firma olmayı,",
-        "Deneyim ve birikimini artırarak sunduğu hizmet kalitesi ile ülke ekonomisine katkıda bulunmayı,",
-        "Müşteri memnuniyetini, çalışan memnuniyetini ve yüksek hizmet kalitesini tesis etmeyi.",
+        "Gelişen teknolojileri kullanarak ve sektördeki gelişmeleri yakından takip ederek müşteri beklentilerini aşan hizmet sunmayı,",
+        "En uygun, doğru ve ekonomik çözümleri etkin ve hızlı şekilde üreterek müşteri ihtiyaçlarını en üst seviyede karşılayan güvenilir bir firma olmayı,",
+        "Deneyim ve birikimini sürekli artırarak sunduğu hizmet kalitesiyle ülke ekonomisine katkıda bulunmayı,",
+        "Çalışan memnuniyeti ve yüksek hizmet kalitesi anlayışıyla müşteri memnuniyetini sağlamayı.",
       ],
     },
     {
       title: "Çevrenin Korunması ve Sürdürülebilirlik",
       items: [
-        "Çevre kirlenmesine etki eden şirket içi ve dışı etkenleri en aza indirerek çevrenin korunmasını sağlamayı ve gelecek nesillere saygılı bir kuruluş olmayı,",
+        "Çevre kirliliğine neden olan şirket içi ve dışı etkenleri en aza indirerek çevrenin korunmasını sağlamayı ve gelecek nesillere saygılı bir kuruluş olmayı,",
         "Doğal kaynakları etkin ve akılcı bir şekilde kullanmayı, atık yönetiminde geri dönüşüm teknolojilerini öncelikli olarak uygulamayı,",
-        "Çevre performansını artırmak amacıyla çevre yönetim sistemini sürekli iyileştirmeyi ve bu bilinci tüm faaliyet sahalarında sistematik hâle getirmeyi.",
+        "Çevre performansını artırmak amacıyla çevre yönetim sistemini sürekli iyileştirmeyi ve çevre bilincini tüm faaliyet sahalarında sistematik hâle getirmeyi.",
       ],
     },
     {
-      title: "İş Sağlığı ve Güvenliği (İSG)",
+      title: "İş Sağlığı ve Güvenliği",
       items: [
         "\"Sıfır İş Kazası ve Sıfır Meslek Hastalığı\" hedefini benimseyerek risk değerlendirmesi yoluyla emniyetsiz durumları önceden tespit etmeyi ve ortadan kaldırmayı,",
-        "Çalışanlarının, alt yüklenicilerinin ve ziyaretçilerinin sağlık, güvenlik ve sosyal refahını sağlamayı ve İSG kurallarına tam riayet edilmesini sağlamayı,",
-        "Gerekli araç, gereç ve Kişisel Koruyucu Ekipmanların (KKE) eksiksiz bulundurulmasını ve kullanımının denetlenmesini sağlamayı,",
-        "Çalışanları için düzenli sağlık gözetimi sağlayarak sağlıklı çalışma ortamları oluşturmayı.",
+        "Çalışanların, alt yüklenicilerin ve ziyaretçilerin sağlık, güvenlik ve sosyal refahını sağlamayı ve İSG kurallarına tam uyum göstermelerini sağlamayı,",
+        "Her türlü tedbiri alarak gerekli araç ve gereçler ile Kişisel Koruyucu Ekipmanları (KKE) eksiksiz bulundurmayı ve kullanımını denetlemeyi,",
+        "Çalışanları için düzenli sağlık gözetimi sağlayarak sağlıklı bir çalışma ortamı oluşturmayı.",
       ],
     },
     {
       title: "Yasal Uyum, Eğitim ve Sürekli İyileştirme",
       items: [
-        "Yürürlükteki kalite, çevre ve İSG mevzuatına, yasal düzenlemelere, uygunluk yükümlülüklerine ve standart şartlarına tam uyum sağlamayı,",
-        "Tüm paydaşlarının bilincini geliştirmek amacıyla düzenli eğitim ve bilinçlendirme faaliyetleri organize ederek kurumsal aile kültürünü güçlendirmeyi,",
+        "Yürürlükteki tüm kalite, çevre ve İSG mevzuatlarına, yasal düzenlemelere, uygunluk yükümlülüklerine ve standart şartlarına tam uyum sağlamayı,",
+        "Tüm paydaşlarının bilincini geliştirmek amacıyla düzenli eğitim ve bilinçlendirme faaliyetleri organize ederek güçlü bir kurumsal kültür oluşturmayı,",
         "Süreç yönetiminde sistem yaklaşımıyla maksimum iletişim ve verimliliği sağlamayı, verimlilik esasına dayalı sürekli iyileştirmeyi sürdürülebilir kılmayı,",
-        "Stratejilerine bağlı kurumsal yönetim anlayışıyla liderlik kültürünü geliştirmeyi ve İSG performansını artırmak için yeterli kaynak ayırmayı.",
+        "Stratejilerine bağlı kurumsal yönetim anlayışıyla tüm çalışanlarına liderlik bilincini kazandırmayı ve İSG performansını geliştirmek için yeterli kaynak ayırmayı.",
       ],
     },
     {
       title: "Bütünlük ve Taahhüt",
       items: [
-        "Kalite, Çevre ve İSG sistemlerini bir bütünlük içinde yönetmeyi, sistem etkinliğini düzenli olarak izlemeyi ve topluma örnek bir kuruluş olmayı İSG, Çevre ve Kalite Politikası olarak taahhüt etmektedir.",
+        "Kalite, çevre ve İSG sistemlerini bir bütünlük içinde yönetmeyi, sistemin etkinliğini düzenli olarak izlemeyi ve topluma örnek bir kuruluş olmayı kurumsal yönetim anlayışının bir gereği olarak taahhüt etmektedir.",
       ],
     },
   ],
 };
 
-export type Certificate = { code: string; label: string; docs: { lang: string; file: string }[] };
+export type Certificate = { code: string; label: string; file: string };
 export const certificates: Certificate[] = [
-  { code: "ISO 9001", label: "Kalite Yönetim Sistemi", docs: [{ lang: "Türkçe", file: "iso-9001.pdf" }] },
-  { code: "ISO 14001", label: "Çevre Yönetim Sistemi", docs: [{ lang: "Türkçe", file: "iso-14001.pdf" }] },
-  { code: "ISO 45001", label: "İş Sağlığı ve Güvenliği Yönetim Sistemi", docs: [{ lang: "Türkçe", file: "iso-45001.pdf" }] },
-  { code: "ISO 27001", label: "Bilgi Güvenliği Yönetim Sistemi", docs: [{ lang: "Türkçe", file: "iso-27001-tr.pdf" }, { lang: "İngilizce", file: "iso-27001-en.pdf" }] },
+  { code: "ISO 9001", label: "Kalite Yönetim Sistemi", file: "iso-9001.pdf" },
+  { code: "ISO 14001", label: "Çevre Yönetim Sistemi", file: "iso-14001.pdf" },
+  { code: "ISO 45001", label: "İş Sağlığı ve Güvenliği Yönetim Sistemi", file: "iso-45001.pdf" },
+  { code: "ISO 27001", label: "Bilgi Güvenliği Yönetim Sistemi", file: "iso-27001-tr.pdf" },
 ];
 
 export type Capability = { title: string; desc: string; image?: string };
