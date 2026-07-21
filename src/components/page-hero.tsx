@@ -12,7 +12,17 @@ const disp = { fontFamily: "var(--f-display)" };
  * bitirmeye yaklaşınca belirir, böylece "iniyor" hissi net okunur.
  * (clip-path kullanılmıyor, bu yüzden dalga kenarında hairline oluşmaz.)
  */
-export function PageHero({ title, image, curveColor = "#ffffff" }: { title: string; image?: string; curveColor?: string }) {
+export function PageHero({
+  title,
+  image,
+  curveColor = "#ffffff",
+  titleClassName = "text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.04]",
+}: {
+  title: string;
+  image?: string;
+  curveColor?: string;
+  titleClassName?: string;
+}) {
   return (
     <motion.section
       initial={{ height: 0 }}
@@ -53,7 +63,7 @@ export function PageHero({ title, image, curveColor = "#ffffff" }: { title: stri
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, delay: 0.33, ease: [0.22, 1, 0.36, 1] }}
-          className="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.04]"
+          className={titleClassName}
           style={disp}
         >
           {title}

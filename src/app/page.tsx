@@ -197,7 +197,7 @@ const CalIcon = () => (
 
 function Haberler() {
   const feat = blogs[0];
-  const rest = blogs.slice(1);
+  const rest = blogs.slice(1, 5);
 
   return (
     <section className="py-20 lg:py-28 bg-white">
@@ -212,7 +212,7 @@ function Haberler() {
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-stretch">
           {/* sol: öne çıkan blog */}
           <Reveal className="flex">
-            <a href="/haberler" data-cursor className="group relative w-full rounded-2xl overflow-hidden shadow-2xl min-h-[420px]">
+            <a href={`/haberler/${feat.slug}`} data-cursor className="group relative w-full rounded-2xl overflow-hidden shadow-2xl min-h-[420px]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={feat.image} alt={feat.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
               <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(0,16,32,0.1) 0%, rgba(0,16,32,0.55) 52%, rgba(0,16,32,0.96) 100%)" }} />
@@ -230,7 +230,7 @@ function Haberler() {
           {/* sağ: diğer bloglar */}
           <Reveal delay={0.12} className="flex flex-col justify-center">
             {rest.map((n) => (
-              <a key={n.title} href="/haberler" data-cursor className="group flex items-center gap-5 py-6 border-b border-black/10 first:pt-0 last:border-0">
+              <a key={n.slug} href={`/haberler/${n.slug}`} data-cursor className="group flex items-center gap-5 py-6 border-b border-black/10 first:pt-0 last:border-0">
                 <div className="w-32 h-24 lg:w-40 lg:h-28 shrink-0 rounded-xl overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={n.image} alt={n.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
